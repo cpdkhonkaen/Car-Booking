@@ -1171,12 +1171,6 @@
       background: #dcfce7;
     }
 
-    .booking-detail-mini-btn.pending-pdf {
-      border-color: #fed7aa;
-      background: #fff7ed;
-      color: #c2410c;
-    }
-
     .admin-cancel-alert {
       display: block;
       margin-top: 8px;
@@ -3034,12 +3028,6 @@
       color: #bbf7d0;
     }
 
-    body.dark-mode .booking-detail-mini-btn.pending-pdf {
-      background: #3a2410;
-      border-color: #fb923c;
-      color: #fed7aa;
-    }
-
     body.dark-mode .booking-detail-icon {
       background: #d7e8ff !important;
       color: #1565c0 !important;
@@ -4262,7 +4250,7 @@ const DARK_MODE_KEY = 'vehicleBookingDarkMode';
 
 // ใส่ URL จาก Apps Script Deploy > Web app > /exec เมื่อต้องการรัน index บน GitHub/Vercel
 // ตัวอย่าง: https://script.google.com/macros/s/AKfycbxxxxxxxxxxxxxxxx/exec
-const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyyEsf6A7w4E9nwa_U30vYqt_0KDANJ-TqZ6yIuDnXRVIEGWaiBo19c_-se1CeMVjnMhA/exec';
+const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyyi-1ujLRDXafF7nun_T4fSkNjmoK4yzcwbMfwmEreeqX-xlanGktkUmQZ5gX2Y-A5/exec';
 
 /* ==============================================================
    INIT
@@ -5054,9 +5042,12 @@ function getMockData(fn, ...args) {
       booking['เวลากลับใหม่'] = '';
       booking['เหตุผลขอแก้ไขวันเวลา'] = '';
       booking['วันที่ขอแก้ไขวันเวลา'] = '';
-      booking['ใบขอใช้รถ PDF'] = 'https://drive.google.com/';
-      booking['ใบขอใช้รถ Slides'] = 'https://docs.google.com/presentation/';
-      return { success: true };
+      return {
+        success: true,
+        fileName: 'ใบขออนุญาตใช้รถส่วนกลาง-demo.pdf',
+        mimeType: 'application/pdf',
+        pdfBase64: 'JVBERi0xLjQKJcOkw7zDtsOfCjEgMCBvYmoKPDwvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFI+PgplbmRvYmoKMiAwIG9iago8PC9UeXBlIC9QYWdlcyAvQ291bnQgMCAvS2lkcyBbXT4+CmVuZG9iagp0cmFpbGVyCjw8L1Jvb3QgMSAwIFI+PgolJUVPRg=='
+      };
     }
     case 'rejectBooking': {
       const booking = db.bookings.find(x => String(x.ID) === String(args[0]));
@@ -5123,16 +5114,14 @@ function getMockData(fn, ...args) {
     case 'printVehiclePermissionForm':
       {
         const booking = db.bookings.find(x => String(x.ID) === String(args[0]));
-        if (booking) {
-          booking['ใบขอใช้รถ PDF'] = 'https://drive.google.com/';
-          booking['ใบขอใช้รถ Slides'] = 'https://docs.google.com/presentation/';
-        }
+        if (!booking) return { success:false, message:'ไม่พบรายการจอง' };
       }
       return {
         success: true,
-        message: 'สร้างใบขออนุญาตใช้รถส่วนกลางเรียบร้อยแล้ว',
-        pdfUrl: 'https://drive.google.com/',
-        slideUrl: 'https://docs.google.com/presentation/'
+        message: 'สร้างไฟล์ PDF สำหรับดาวน์โหลดเรียบร้อยแล้ว',
+        fileName: 'ใบขออนุญาตใช้รถส่วนกลาง-demo.pdf',
+        mimeType: 'application/pdf',
+        pdfBase64: 'JVBERi0xLjQKJcOkw7zDtsOfCjEgMCBvYmoKPDwvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFI+PgplbmRvYmoKMiAwIG9iago8PC9UeXBlIC9QYWdlcyAvQ291bnQgMCAvS2lkcyBbXT4+CmVuZG9iagp0cmFpbGVyCjw8L1Jvb3QgMSAwIFI+PgolJUVPRg=='
       };
     case 'saveVehicle': {
       const data = args[0];
@@ -5776,7 +5765,7 @@ function bookingDetailHtml(b) {
       ${b['หมายเหตุ'] ? line('bi-chat-left-text-fill', 'หมายเหตุ', escapeAttr(b['หมายเหตุ'])) : ''}
       ${b['เหตุผลขอยกเลิก'] ? line('bi-x-octagon-fill', 'เหตุผลขอยกเลิก', `<span style="color:#c62828;font-weight:800;">${escapeAttr(b['เหตุผลขอยกเลิก'])}</span>`) : ''}
       ${line('bi-people-fill', 'ผู้โดยสาร', `${escapeAttr(b['จำนวนผู้โดยสาร'] || '-')} คน`)}
-      ${bookingCanHavePermissionPdf(b) || bookingPermissionPdfUrl(b) ? line('bi-file-earmark-pdf-fill', 'ใบขอใช้รถ', bookingPermissionPdfButtonHtml(b, false)) : ''}
+      ${bookingCanHavePermissionPdf(b) ? line('bi-file-earmark-pdf-fill', 'ใบขอใช้รถ', bookingPermissionPdfButtonHtml(b, false)) : ''}
       ${line('bi-check-circle-fill', 'สถานะ', `
       <span style="display:inline-flex;align-items:center;padding:4px 12px;border-radius:999px;background:${status.bg};color:${status.color};border:1px solid ${status.color};font-weight:700;">
         ${escapeAttr(b['สถานะ'] || '-')}
@@ -6545,10 +6534,6 @@ function filterMyBookings() {
   }));
 }
 
-function bookingPermissionPdfUrl(b) {
-  return String(b?.['ใบขอใช้รถ PDF'] || b?.permissionPdfUrl || b?.pdfUrl || '').trim();
-}
-
 function bookingCanHavePermissionPdf(b) {
   return b &&
     b['สถานะ'] === 'อนุมัติแล้ว' &&
@@ -6557,18 +6542,11 @@ function bookingCanHavePermissionPdf(b) {
 }
 
 function bookingPermissionPdfButtonHtml(b, prefixBreak = true) {
-  const pdfUrl = bookingPermissionPdfUrl(b);
   const prefix = prefixBreak ? '<br>' : '';
-  if (pdfUrl) {
-    return `
-      ${prefix}<a class="booking-detail-mini-btn pdf" href="${escapeAttr(pdfUrl)}" target="_blank" rel="noopener">
-        <i class="bi bi-file-earmark-pdf-fill"></i> เปิด PDF
-      </a>`;
-  }
   if (bookingCanHavePermissionPdf(b)) {
     return `
-      ${prefix}<button type="button" class="booking-detail-mini-btn pending-pdf" onclick="printVehiclePermissionForm('${escapeAttr(b.ID)}')">
-        <i class="bi bi-file-earmark-plus-fill"></i> สร้าง PDF
+      ${prefix}<button type="button" class="booking-detail-mini-btn pdf" onclick="printVehiclePermissionForm('${escapeAttr(b.ID)}')">
+        <i class="bi bi-file-earmark-arrow-down-fill"></i> ดาวน์โหลด PDF
       </button>`;
   }
   return '';
@@ -7375,7 +7353,26 @@ async function approveBooking(id) {
   hideLoading();
 
   if (res.success) {
-    Swal.fire({ icon:'success', title:'อนุมัติสำเร็จ', confirmButtonColor:'#1565c0', timer:1500, showConfirmButton:false });
+    if (res.pdfBase64) {
+      downloadBase64File(res.pdfBase64, res.fileName || `ใบขออนุญาตใช้รถส่วนกลาง-${id}.pdf`, res.mimeType || 'application/pdf');
+      Swal.fire({
+        icon:'success',
+        title:'อนุมัติสำเร็จ',
+        text:'ระบบดาวน์โหลดใบขออนุญาตใช้รถส่วนกลางให้แล้ว',
+        confirmButtonColor:'#1565c0',
+        timer:1800,
+        showConfirmButton:false
+      });
+    } else if (res.pdfError) {
+      Swal.fire({
+        icon:'warning',
+        title:'อนุมัติสำเร็จ แต่ยังสร้าง PDF ไม่ได้',
+        text: res.pdfError,
+        confirmButtonColor:'#1565c0'
+      });
+    } else {
+      Swal.fire({ icon:'success', title:'อนุมัติสำเร็จ', confirmButtonColor:'#1565c0', timer:1500, showConfirmButton:false });
+    }
     await loadAdminBookings();
     if (APP.calendar) await initCalendar();
   } else {
@@ -7527,49 +7524,32 @@ async function clearEditBookingDateTimeRequest(id) {
 }
 
 async function printVehiclePermissionForm(id) {
-  const popup = window.open('', '_blank');
-  if (!popup) {
-    Swal.fire({
-      icon: 'warning',
-      title: 'เบราว์เซอร์บล็อกหน้าต่างใหม่',
-      text: 'กรุณาอนุญาตป๊อปอัปสำหรับเว็บนี้ แล้วกดปุ่มใบขอใช้รถอีกครั้ง',
-      confirmButtonColor: '#1565c0'
-    });
-    return;
-  }
-
-  popup.document.write('<!doctype html><html><head><meta charset="UTF-8"><title>กำลังสร้าง PDF</title></head><body style="font-family:Tahoma,Arial,sans-serif;padding:28px;color:#1f2937;"><h3>กำลังสร้างใบขออนุญาตใช้รถส่วนกลาง...</h3><p>กรุณารอสักครู่ ระบบจะเปิดไฟล์ PDF ให้อัตโนมัติ</p></body></html>');
-  popup.document.close();
-
   showLoading();
   try {
     const res = await gasCall('printVehiclePermissionForm', id);
     hideLoading();
 
-    if (res && res.success && res.pdfUrl) {
-      popup.location.href = res.pdfUrl;
-      await loadBookings(null, true);
-      if (APP.currentPage === 'my-bookings') filterMyBookings();
-      if (APP.currentPage === 'admin') await loadAdminBookings();
+    if (res && res.success && res.pdfBase64) {
+      downloadBase64File(res.pdfBase64, res.fileName || `ใบขออนุญาตใช้รถส่วนกลาง-${id}.pdf`, res.mimeType || 'application/pdf');
       Swal.fire({
         icon: 'success',
-        title: 'สร้างใบขออนุญาตแล้ว',
-        html: `<div style="line-height:1.8;">ระบบเปิดไฟล์ PDF ในแท็บใหม่แล้ว<br><a href="${escapeAttr(res.pdfUrl)}" target="_blank" rel="noopener">เปิด PDF อีกครั้ง</a></div>`,
-        confirmButtonColor: '#1565c0'
+        title: 'ดาวน์โหลด PDF แล้ว',
+        text: res.message || 'ระบบสร้างไฟล์ใบขออนุญาตใช้รถส่วนกลางให้แล้ว',
+        confirmButtonColor: '#1565c0',
+        timer: 1800,
+        showConfirmButton: false
       });
       return;
     }
 
-    popup.close();
     Swal.fire({
       icon: 'error',
       title: 'สร้าง PDF ไม่สำเร็จ',
-      text: res?.message || 'ไม่สามารถสร้างใบขออนุญาตใช้รถส่วนกลางได้',
+      text: res?.message || 'ไม่สามารถสร้างไฟล์ PDF สำหรับดาวน์โหลดได้',
       confirmButtonColor: '#1565c0'
     });
   } catch (err) {
     hideLoading();
-    popup.close();
     Swal.fire({
       icon: 'error',
       title: 'เกิดข้อผิดพลาด',
@@ -7577,6 +7557,23 @@ async function printVehiclePermissionForm(id) {
       confirmButtonColor: '#1565c0'
     });
   }
+}
+
+function downloadBase64File(base64, fileName, mimeType) {
+  const binary = atob(String(base64 || ''));
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) {
+    bytes[i] = binary.charCodeAt(i);
+  }
+  const blob = new Blob([bytes], { type: mimeType || 'application/pdf' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = fileName || 'download.pdf';
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
 async function rejectBooking(id) {
