@@ -4262,7 +4262,7 @@ const DARK_MODE_KEY = 'vehicleBookingDarkMode';
 
 // ใส่ URL จาก Apps Script Deploy > Web app > /exec เมื่อต้องการรัน index บน GitHub/Vercel
 // ตัวอย่าง: https://script.google.com/macros/s/AKfycbxxxxxxxxxxxxxxxx/exec
-const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycby6nB26U-0IU6A1ENQ86LVfDLdHXTPpZa-TRt_DyXZgMG1qyBaMoj3smPmSvn5h04RNxQ/exec';
+const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyuH61Xas9VEGewM6QYQ_xm6_Y5LGfnkS2SBUvGXYXjMGYRBkBGr0kAzJeZI9v7NOAGaQ/exec';
 
 /* ==============================================================
    INIT
@@ -4636,12 +4636,19 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 async function initializeAppData(force = false) {
-  if (!force && APP.dataReady.initial) return;
+  if (!force && APP.dataReady.initial) return true;
 
-  const data = await gasCall('getInitialData');
-  applyInitialData(data || {});
-  filterVehicles();
-  updateNotificationBadge(APP.allBookings);
+  try {
+    const data = await gasCall('getInitialData');
+    applyInitialData(data || {});
+    filterVehicles();
+    updateNotificationBadge(APP.allBookings);
+    return true;
+  } catch (err) {
+    console.error('Initial data load failed:', err);
+    showDataLoadError(err);
+    return false;
+  }
 }
 
 function applyInitialData(data) {
@@ -4653,6 +4660,34 @@ function applyInitialData(data) {
 
 function resetClientDataCache() {
   APP.dataReady = { vehicles: false, drivers: false, bookings: false, initial: false };
+}
+
+function dataLoadErrorHtml(err) {
+  const message = escapeAttr(err?.message || String(err || 'ไม่สามารถโหลดข้อมูลได้'));
+  return `<div style="text-align:center;color:#c62828;padding:30px;line-height:1.8;font-weight:800;">
+    โหลดข้อมูลไม่สำเร็จ<br>
+    <small style="color:#64748b;font-weight:700;">${message}</small>
+  </div>`;
+}
+
+function showDataLoadError(err) {
+  const tableHtml = dataLoadErrorHtml(err);
+  const myBody = document.getElementById('my-bookings-body');
+  if (myBody) myBody.innerHTML = `<tr><td colspan="9">${tableHtml}</td></tr>`;
+  const adminBody = document.getElementById('admin-bookings-body');
+  if (adminBody) adminBody.innerHTML = `<tr><td colspan="8">${tableHtml}</td></tr>`;
+  const driverSchedule = document.getElementById('driver-schedule-table');
+  if (driverSchedule) driverSchedule.innerHTML = tableHtml;
+  ['dashboard-top-vehicles', 'dashboard-top-drivers', 'dashboard-top-departments'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = tableHtml;
+  });
+  Swal.fire({
+    icon: 'error',
+    title: 'โหลดข้อมูลไม่สำเร็จ',
+    text: err?.message || String(err || 'กรุณาตรวจสอบ Apps Script deployment และสิทธิ์การเข้าถึง Sheet'),
+    confirmButtonColor: '#1565c0'
+  });
 }
 
 function hasBookingFilters(filters) {
@@ -6152,7 +6187,8 @@ async function handleLoginSubmit(event) {
     sessionStorage.setItem('vehicleBookingUser', JSON.stringify(APP.currentUser));
     applyCurrentUser();
     showAppScreen();
-    await initializeAppData();
+    const dataLoaded = await initializeAppData();
+    if (!dataLoaded) return;
     navigate(APP.currentPage || 'booking');
   } catch (err) {
     errorBox.textContent = err.message || 'ไม่สามารถเข้าสู่ระบบได้';
@@ -8453,5 +8489,3 @@ function formatPhone(value) {
 
 </body>
 </html>
-
-
