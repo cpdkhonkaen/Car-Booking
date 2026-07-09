@@ -694,21 +694,6 @@
       height: 21px;
     }
 
-    #page-booking .booking-department-group {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 8px;
-    }
-
-    #page-booking .booking-department-group .radio-chip {
-      width: 100%;
-      min-width: 0;
-      height: 100%;
-      align-items: flex-start;
-      white-space: normal;
-      word-break: break-word;
-    }
-
     #page-booking .booking-passenger-field {
       height: 100%;
       padding: 12px;
@@ -818,10 +803,6 @@
     @media (max-width: 576px) {
       .radio-chip {
         width: 100%;
-      }
-
-      #page-booking .booking-department-group {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
       .time-button-group {
@@ -3587,7 +3568,23 @@
           </div>
           <div class="col-md-6">
             <label class="form-label">ตำแหน่ง <span style="color:red">*</span></label>
-            <input type="text" class="form-control" id="f-position" />
+            <select class="form-select" id="f-position">
+              <option value="">-- เลือกตำแหน่ง --</option>
+              <option value="นักวิชาการสหกรณ์ปฏิบัติการ">นักวิชาการสหกรณ์ปฏิบัติการ</option>
+              <option value="นักวิชาการสหกรณ์ชำนาญการ">นักวิชาการสหกรณ์ชำนาญการ</option>
+              <option value="นักวิชาการสหกรณ์ชำนาญการพิเศษ">นักวิชาการสหกรณ์ชำนาญการพิเศษ</option>
+              <option value="นิติกรปฏิบัติการ">นิติกรปฏิบัติการ</option>
+              <option value="นิติกรชำนาญการ">นิติกรชำนาญการ</option>
+              <option value="เจ้าพนักงานส่งเสริมสหกรณ์">เจ้าพนักงานส่งเสริมสหกรณ์</option>
+              <option value="เจ้าพนักงานส่งเสริมสหกรณ์อาวุโส">เจ้าพนักงานส่งเสริมสหกรณ์อาวุโส</option>
+              <option value="นายช่างโยธาอาวุโส">นายช่างโยธาอาวุโส</option>
+              <option value="นักวิเคราะห์นโยบายและแผน">นักวิเคราะห์นโยบายและแผน</option>
+              <option value="นิติกร">นิติกร</option>
+              <option value="นักวิชาการสหกรณ์">นักวิชาการสหกรณ์</option>
+              <option value="นักวิชาการมาตรฐานสินค้า">นักวิชาการมาตรฐานสินค้า</option>
+              <option value="เจ้าพนักงานธุรการ">เจ้าพนักงานธุรการ</option>
+              <option value="เจ้าพนักงานการเงินและบัญชี">เจ้าพนักงานการเงินและบัญชี</option>
+            </select>
           </div>
           <div class="col-md-6">
             <label class="form-label">เบอร์โทร <span style="color:red">*</span></label>
@@ -3599,29 +3596,23 @@
           </div>
           <div class="col-12">
             <label class="form-label">กลุ่มงาน <span style="color:red">*</span></label>
-            <input type="hidden" id="f-department" />
-            <div class="radio-chip-group booking-department-group" role="radiogroup" aria-label="กลุ่มงาน">
-              <label class="radio-chip">
-                <input type="radio" name="booking-department" value="ฝ่ายบริหารทั่วไป" onchange="setBookingRadioValue('f-department', this.value);" />
-                ฝ่ายบริหารทั่วไป
-              </label>
-              <label class="radio-chip">
-                <input type="radio" name="booking-department" value="กลุ่มจัดตั้งและส่งเสริมสหกรณ์" onchange="setBookingRadioValue('f-department', this.value);" />
-                กลุ่มจัดตั้งและส่งเสริมสหกรณ์
-              </label>
-              <label class="radio-chip">
-                <input type="radio" name="booking-department" value="กลุ่มส่งเสริมและพัฒนาการบริหารการจัดการสหกรณ์" onchange="setBookingRadioValue('f-department', this.value);" />
-                กลุ่มส่งเสริมและพัฒนาการบริหารการจัดการสหกรณ์
-              </label>
-              <label class="radio-chip">
-                <input type="radio" name="booking-department" value="กลุ่มส่งเสริมและพัฒนาธุรกิจสหกรณ์" onchange="setBookingRadioValue('f-department', this.value);" />
-                กลุ่มส่งเสริมและพัฒนาธุรกิจสหกรณ์
-              </label>
-              <label class="radio-chip">
-                <input type="radio" name="booking-department" value="กลุ่มตรวจการสหกรณ์" onchange="setBookingRadioValue('f-department', this.value);" />
-                กลุ่มตรวจการสหกรณ์
-              </label>
-            </div>
+            <select class="form-select" id="f-department">
+              <option value="">-- เลือกกลุ่มงาน --</option>
+              <option value="ฝ่ายบริหารทั่วไป">ฝ่ายบริหารทั่วไป</option>
+              <option value="กลุ่มจัดตั้งและส่งเสริมสหกรณ์">กลุ่มจัดตั้งและส่งเสริมสหกรณ์</option>
+              <option value="กลุ่มส่งเสริมและพัฒนาการบริหารการจัดการสหกรณ์">กลุ่มส่งเสริมและพัฒนาการบริหารการจัดการสหกรณ์</option>
+              <option value="กลุ่มส่งเสริมและพัฒนาธุรกิจสหกรณ์">กลุ่มส่งเสริมและพัฒนาธุรกิจสหกรณ์</option>
+              <option value="กลุ่มตรวจการสหกรณ์">กลุ่มตรวจการสหกรณ์</option>
+              <option value="กลุ่มส่งเสริมสหกรณ์ 1">กลุ่มส่งเสริมสหกรณ์ 1</option>
+              <option value="กลุ่มส่งเสริมสหกรณ์ 2">กลุ่มส่งเสริมสหกรณ์ 2</option>
+              <option value="กลุ่มส่งเสริมสหกรณ์ 3">กลุ่มส่งเสริมสหกรณ์ 3</option>
+              <option value="กลุ่มส่งเสริมสหกรณ์ 4">กลุ่มส่งเสริมสหกรณ์ 4</option>
+              <option value="กลุ่มส่งเสริมสหกรณ์ 5">กลุ่มส่งเสริมสหกรณ์ 5</option>
+              <option value="กลุ่มส่งเสริมสหกรณ์ 6">กลุ่มส่งเสริมสหกรณ์ 6</option>
+              <option value="กลุ่มส่งเสริมสหกรณ์ 7">กลุ่มส่งเสริมสหกรณ์ 7</option>
+              <option value="กลุ่มส่งเสริมสหกรณ์ 8">กลุ่มส่งเสริมสหกรณ์ 8</option>
+              <option value="นิคมสหกรณ์ดงมูล">นิคมสหกรณ์ดงมูล</option>
+            </select>
           </div>
         </div>
 
@@ -3744,6 +3735,15 @@
             <option value="กลุ่มส่งเสริมและพัฒนาการบริหารการจัดการสหกรณ์">กลุ่มส่งเสริมและพัฒนาการบริหารการจัดการสหกรณ์</option>
             <option value="กลุ่มส่งเสริมและพัฒนาธุรกิจสหกรณ์">กลุ่มส่งเสริมและพัฒนาธุรกิจสหกรณ์</option>
             <option value="กลุ่มตรวจการสหกรณ์">กลุ่มตรวจการสหกรณ์</option>
+            <option value="กลุ่มส่งเสริมสหกรณ์ 1">กลุ่มส่งเสริมสหกรณ์ 1</option>
+            <option value="กลุ่มส่งเสริมสหกรณ์ 2">กลุ่มส่งเสริมสหกรณ์ 2</option>
+            <option value="กลุ่มส่งเสริมสหกรณ์ 3">กลุ่มส่งเสริมสหกรณ์ 3</option>
+            <option value="กลุ่มส่งเสริมสหกรณ์ 4">กลุ่มส่งเสริมสหกรณ์ 4</option>
+            <option value="กลุ่มส่งเสริมสหกรณ์ 5">กลุ่มส่งเสริมสหกรณ์ 5</option>
+            <option value="กลุ่มส่งเสริมสหกรณ์ 6">กลุ่มส่งเสริมสหกรณ์ 6</option>
+            <option value="กลุ่มส่งเสริมสหกรณ์ 7">กลุ่มส่งเสริมสหกรณ์ 7</option>
+            <option value="กลุ่มส่งเสริมสหกรณ์ 8">กลุ่มส่งเสริมสหกรณ์ 8</option>
+            <option value="นิคมสหกรณ์ดงมูล">นิคมสหกรณ์ดงมูล</option>
           </select>
           <button type="button" class="btn-admin-export" onclick="resetMyBookingFilters()" style="background:#eef5ff;color:#0d47a1;border-color:#bbdefb;">
             <i class="bi bi-arrow-counterclockwise"></i> ล้างตัวกรอง
@@ -4189,28 +4189,7 @@ const DARK_MODE_KEY = 'vehicleBookingDarkMode';
 
 // ใส่ URL จาก Apps Script Deploy > Web app > /exec เมื่อต้องการรัน index บน GitHub/Vercel
 // ตัวอย่าง: https://script.google.com/macros/s/AKfycbxxxxxxxxxxxxxxxx/exec
-const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycby6xn8KR3P6lTLKs15s_n2oqr9jmS_GyTU9vj4RUNbLVklcUL30KWN77XBMswaJyblawA/exec';
-
-function getGasWebAppUrl() {
-  const fromWindow = typeof window !== 'undefined' && window.GAS_WEB_APP_URL ? window.GAS_WEB_APP_URL : '';
-  const fromLocalStorage = (() => {
-    try {
-      return localStorage.getItem('GAS_WEB_APP_URL') || '';
-    } catch (err) {
-      return '';
-    }
-  })();
-  return String(fromWindow || GAS_WEB_APP_URL || fromLocalStorage || '').trim();
-}
-
-function isLocalDemoHost() {
-  const host = String(location.hostname || '').toLowerCase();
-  return !host || host === 'localhost' || host === '127.0.0.1' || host === '::1';
-}
-
-function isGoogleScriptHost() {
-  return String(location.hostname || '').toLowerCase().includes('script.google.com');
-}
+const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzpj2VXMCszgIkp1bK-IUTl_NOlCFjIIi2-eVmL7c-BdKpYOMLGSQmzcMDrK3PtSn03/exec';
 
 /* ==============================================================
    INIT
@@ -4390,7 +4369,7 @@ function setBookingRadioValue(targetId, value) {
 }
 
 function clearBookingRadioGroups() {
-  ['booking-department', 'booking-vehicle-type'].forEach(name => {
+  ['booking-vehicle-type'].forEach(name => {
     document.querySelectorAll(`input[name="${name}"]`).forEach(input => {
       input.checked = false;
       input.closest('.radio-chip')?.classList.remove('is-selected');
@@ -4580,11 +4559,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const loggedIn = await loadCurrentUser();
   if (!loggedIn) return;
   syncBookingDateRestrictions();
-  try {
-    await initializeAppData();
-  } catch (err) {
-    showGasConnectionError(err);
-  }
+  await initializeAppData();
 });
 
 async function initializeAppData(force = false) {
@@ -4594,24 +4569,6 @@ async function initializeAppData(force = false) {
   applyInitialData(data || {});
   filterVehicles();
   updateNotificationBadge(APP.allBookings);
-}
-
-function showGasConnectionError(err) {
-  const message = err && err.message ? err.message : 'ไม่สามารถเชื่อมต่อฐานข้อมูล Google Sheet ได้';
-  const apiUrl = getGasWebAppUrl();
-  const hint = apiUrl
-    ? `ตรวจสอบว่า Apps Script URL นี้ deploy เป็น Web app แบบ Anyone แล้วหรือยัง:<br><code style="font-size:12px;">${escapeAttr(apiUrl)}</code>`
-    : 'กรุณาใส่ URL Apps Script Web app ที่ลงท้าย <code>/exec</code> ในตัวแปร <code>GAS_WEB_APP_URL</code> แล้ว deploy GitHub/Vercel ใหม่';
-
-  Swal.fire({
-    icon: 'error',
-    title: 'ยังไม่เชื่อม Google Sheet จริง',
-    html: `<div style="text-align:left;line-height:1.8;font-size:14px;">
-      <strong>สาเหตุ:</strong> ${escapeAttr(message)}<br>
-      ${hint}
-    </div>`,
-    confirmButtonColor: '#1565c0'
-  });
 }
 
 function applyInitialData(data) {
@@ -4766,14 +4723,10 @@ async function showNotifications() {
 function gasCall(fnName, ...args) {
   return new Promise((resolve, reject) => {
     if (typeof google === 'undefined') {
-      const apiUrl = getGasWebAppUrl();
+      const apiUrl = String(GAS_WEB_APP_URL || '').trim();
       if (!apiUrl) {
-        if (isLocalDemoHost()) {
-          // DEMO MODE (local testing)
-          resolve(getMockData(fnName, ...args));
-          return;
-        }
-        reject(new Error('ยังไม่ได้ตั้งค่า GAS_WEB_APP_URL สำหรับ GitHub Pages/Vercel'));
+        // DEMO MODE (local testing)
+        resolve(getMockData(fnName, ...args));
         return;
       }
       gasJsonpCall(apiUrl, fnName, args)
@@ -4794,7 +4747,7 @@ function gasCall(fnName, ...args) {
         resolve(result);
       })
       .withFailureHandler(reject);
-    runner[fnName](...args);
+    runner.callServer(fnName, args);
   });
 }
 
@@ -6113,7 +6066,6 @@ async function handleLoginSubmit(event) {
     navigate(APP.currentPage || 'booking');
   } catch (err) {
     errorBox.textContent = err.message || 'ไม่สามารถเข้าสู่ระบบได้';
-    if (!isLocalDemoHost() && !isGoogleScriptHost()) showGasConnectionError(err);
   } finally {
     button.disabled = false;
     button.textContent = 'เข้าสู่ระบบ';
@@ -6308,7 +6260,7 @@ async function submitBooking() {
     bookerName:     document.getElementById('f-name').value.trim(),
     bookerPhone:    document.getElementById('f-phone').value.trim(),
     bookerEmail:    document.getElementById('f-email').value.trim(),
-    bookerPosition: document.getElementById('f-position').value.trim(),
+    bookerPosition: document.getElementById('f-position').value,
     bookerDept:     document.getElementById('f-department').value,
     vehicleType:    document.getElementById('f-vehicle-type').value,
     vehiclePlate:    '',
