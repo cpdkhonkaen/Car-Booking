@@ -2240,6 +2240,45 @@
         white-space: nowrap;
       }
 
+      .booking-limit-swal {
+        width: min(310px, calc(100vw - 36px)) !important;
+        padding: 0 0 14px !important;
+        border-radius: 10px !important;
+      }
+
+      .booking-limit-swal .swal2-icon {
+        width: 48px;
+        height: 48px;
+        margin: 16px auto 8px;
+      }
+
+      .booking-limit-swal .swal2-icon .swal2-icon-content {
+        font-size: 34px;
+      }
+
+      .booking-limit-swal .swal2-title {
+        padding: 0 16px;
+        font-size: 21px;
+        line-height: 1.25;
+      }
+
+      .booking-limit-swal .swal2-html-container {
+        margin: 8px 16px 0;
+        font-size: 14px;
+        line-height: 1.45;
+      }
+
+      .booking-limit-swal .swal2-actions {
+        margin: 14px 16px 0;
+      }
+
+      .booking-limit-swal .swal2-confirm {
+        min-width: 76px;
+        min-height: 38px;
+        padding: 7px 16px;
+        font-size: 15px;
+      }
+
       #page-calendar .card-body-custom {
         padding: 10px;
       }
@@ -6800,6 +6839,7 @@ function showBookingTextLimitWarning(input, label, max) {
     icon: 'warning',
     title: `${label}ยาวเกินไป`,
     text: `กรุณากรอก${label}ไม่เกิน ${max} ตัวอักษร`,
+    customClass: { popup: 'booking-limit-swal' },
     confirmButtonColor: '#1565c0'
   });
 }
@@ -6869,12 +6909,12 @@ async function submitBooking() {
   }
 
   if (formData.destination.length > 71) {
-    Swal.fire({ icon: 'warning', title: 'สถานที่ปลายทางยาวเกินไป', text: 'กรุณากรอกสถานที่ปลายทางไม่เกิน 71 ตัวอักษร', confirmButtonColor: '#1565c0' });
+    Swal.fire({ icon: 'warning', title: 'สถานที่ปลายทางยาวเกินไป', text: 'กรุณากรอกสถานที่ปลายทางไม่เกิน 71 ตัวอักษร', customClass: { popup: 'booking-limit-swal' }, confirmButtonColor: '#1565c0' });
     return;
   }
 
   if (formData.purpose.length > 140) {
-    Swal.fire({ icon: 'warning', title: 'วัตถุประสงค์ยาวเกินไป', text: 'กรุณากรอกวัตถุประสงค์ไม่เกิน 140 ตัวอักษร', confirmButtonColor: '#1565c0' });
+    Swal.fire({ icon: 'warning', title: 'วัตถุประสงค์ยาวเกินไป', text: 'กรุณากรอกวัตถุประสงค์ไม่เกิน 140 ตัวอักษร', customClass: { popup: 'booking-limit-swal' }, confirmButtonColor: '#1565c0' });
     return;
   }
 
