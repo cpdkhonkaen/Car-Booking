@@ -1252,28 +1252,6 @@
       color: #1d4ed8;
     }
 
-    .admin-print-permission-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-      width: 100%;
-      border: 1px solid #0f766e;
-      border-radius: 8px;
-      padding: 7px 9px;
-      background: #ecfdf5;
-      color: #0f766e;
-      font-size: 12px;
-      font-weight: 800;
-      line-height: 1.2;
-      cursor: pointer;
-    }
-
-    .admin-print-permission-btn:hover {
-      background: #0f766e;
-      color: #fff;
-    }
-
     .cancel-booking-swal .swal2-html-container {
       margin-top: 4px;
     }
@@ -3277,17 +3255,6 @@
       color: #ddd6fe;
     }
 
-    body.dark-mode .admin-print-permission-btn {
-      background: #0f2f2a;
-      border-color: #14b8a6;
-      color: #99f6e4;
-    }
-
-    body.dark-mode .admin-print-permission-btn:hover {
-      background: #14b8a6;
-      color: #062a25;
-    }
-
     body.dark-mode .dashboard-rank-row,
     body.dark-mode .driver-schedule-card,
     body.dark-mode .schedule-period-row {
@@ -3630,6 +3597,7 @@
             <label class="form-label">ตำแหน่ง <span style="color:red">*</span></label>
             <select class="form-select" id="f-position">
               <option value="">-- เลือกตำแหน่ง --</option>
+              <option value="นักจัดการงานทั่วไปชำนาญการ">นักจัดการงานทั่วไปชำนาญการ</option>
               <option value="นักวิชาการสหกรณ์ปฏิบัติการ">นักวิชาการสหกรณ์ปฏิบัติการ</option>
               <option value="นักวิชาการสหกรณ์ชำนาญการ">นักวิชาการสหกรณ์ชำนาญการ</option>
               <option value="นักวิชาการสหกรณ์ชำนาญการพิเศษ">นักวิชาการสหกรณ์ชำนาญการพิเศษ</option>
@@ -4250,7 +4218,7 @@ const DARK_MODE_KEY = 'vehicleBookingDarkMode';
 
 // ใส่ URL จาก Apps Script Deploy > Web app > /exec เมื่อต้องการรัน index บน GitHub/Vercel
 // ตัวอย่าง: https://script.google.com/macros/s/AKfycbxxxxxxxxxxxxxxxx/exec
-const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyyi-1ujLRDXafF7nun_T4fSkNjmoK4yzcwbMfwmEreeqX-xlanGktkUmQZ5gX2Y-A5/exec';
+const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwrxNJRwPJRqdOan1IlCdUwF-QGHaNN-zj0oQc5e49rxZR-bbLuXnFjk-HQdvqH6uzw-A/exec';
 
 /* ==============================================================
    INIT
@@ -5042,12 +5010,7 @@ function getMockData(fn, ...args) {
       booking['เวลากลับใหม่'] = '';
       booking['เหตุผลขอแก้ไขวันเวลา'] = '';
       booking['วันที่ขอแก้ไขวันเวลา'] = '';
-      return {
-        success: true,
-        fileName: 'ใบขออนุญาตใช้รถส่วนกลาง-demo.pdf',
-        mimeType: 'application/pdf',
-        pdfBase64: 'JVBERi0xLjQKJcOkw7zDtsOfCjEgMCBvYmoKPDwvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFI+PgplbmRvYmoKMiAwIG9iago8PC9UeXBlIC9QYWdlcyAvQ291bnQgMCAvS2lkcyBbXT4+CmVuZG9iagp0cmFpbGVyCjw8L1Jvb3QgMSAwIFI+PgolJUVPRg=='
-      };
+      return { success: true };
     }
     case 'rejectBooking': {
       const booking = db.bookings.find(x => String(x.ID) === String(args[0]));
@@ -7083,9 +7046,6 @@ function renderAdminStatusControl(b) {
       <select class="form-select form-select-sm admin-status-select ${adminStatusControlClass(b['สถานะ'])}" onchange="changeBookingStatus('${b.ID}', this.value)">
         ${options}
       </select>
-      <button type="button" class="admin-print-permission-btn" onclick="printVehiclePermissionForm('${escapeAttr(b.ID)}')" title="พิมพ์ใบขออนุญาตใช้รถส่วนกลาง">
-        <i class="bi bi-printer-fill"></i> ใบขอใช้รถ
-      </button>
       ${b['สถานะ'] === 'ไม่อนุมัติ' && rejectReason ? `<small class="admin-reject-reason"><i class="bi bi-chat-left-text-fill"></i>${escapeAttr(rejectReason)}</small>` : ''}
       ${cancelReason ? `<small class="admin-cancel-reason"><i class="bi bi-x-octagon-fill"></i>เหตุผลขอยกเลิก: ${escapeAttr(cancelReason)}</small>` : ''}
       ${editRequest ? `<small class="admin-edit-time-reason"><i class="bi bi-clock-history"></i>ขอแก้วัน/เวลา: ${escapeAttr(formatEditTimeRequestRange(editRequest))}</small>` : ''}
@@ -7353,26 +7313,7 @@ async function approveBooking(id) {
   hideLoading();
 
   if (res.success) {
-    if (res.pdfBase64) {
-      downloadBase64File(res.pdfBase64, res.fileName || `ใบขออนุญาตใช้รถส่วนกลาง-${id}.pdf`, res.mimeType || 'application/pdf');
-      Swal.fire({
-        icon:'success',
-        title:'อนุมัติสำเร็จ',
-        text:'ระบบดาวน์โหลดใบขออนุญาตใช้รถส่วนกลางให้แล้ว',
-        confirmButtonColor:'#1565c0',
-        timer:1800,
-        showConfirmButton:false
-      });
-    } else if (res.pdfError) {
-      Swal.fire({
-        icon:'warning',
-        title:'อนุมัติสำเร็จ แต่ยังสร้าง PDF ไม่ได้',
-        text: res.pdfError,
-        confirmButtonColor:'#1565c0'
-      });
-    } else {
-      Swal.fire({ icon:'success', title:'อนุมัติสำเร็จ', confirmButtonColor:'#1565c0', timer:1500, showConfirmButton:false });
-    }
+    Swal.fire({ icon:'success', title:'อนุมัติสำเร็จ', confirmButtonColor:'#1565c0', timer:1500, showConfirmButton:false });
     await loadAdminBookings();
     if (APP.calendar) await initCalendar();
   } else {
