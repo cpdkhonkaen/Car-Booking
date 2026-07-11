@@ -4328,7 +4328,7 @@ const DARK_MODE_KEY = 'vehicleBookingDarkMode';
 
 // ใส่ URL จาก Apps Script Deploy > Web app > /exec เมื่อต้องการรัน index บน GitHub/Vercel
 // ตัวอย่าง: https://script.google.com/macros/s/AKfycbxxxxxxxxxxxxxxxx/exec
-const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyPTOpL_0J53eSujBVsUQJCYdCUg_TIE58g9i2rU7U9koyJO2em8H5spjEe5KbmPchu5g/exec';
+const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyu2moCycv8WEJV1mkwiqO9Z_Rw4i7_RCR7JjTWu2MqUj3kp7AiqeUCCK1XeYuOqPk9GQ/exec';
 
 /* ==============================================================
    INIT
@@ -4782,8 +4782,11 @@ function filterBookingsLocally(bookings, filters) {
     if (!q) return true;
 
     return (
+      String(booking.ID || '').toLowerCase().indexOf(q) !== -1 ||
       String(booking['ชื่อผู้จอง'] || '').toLowerCase().indexOf(q) !== -1 ||
+      String(booking['กลุ่มงาน'] || '').toLowerCase().indexOf(q) !== -1 ||
       String(booking['สถานที่'] || '').toLowerCase().indexOf(q) !== -1 ||
+      String(booking['วัตถุประสงค์'] || '').toLowerCase().indexOf(q) !== -1 ||
       String(booking['ทะเบียนรถ'] || '').toLowerCase().indexOf(q) !== -1 ||
       String(booking['ชื่อคนขับ'] || '').toLowerCase().indexOf(q) !== -1
     );
