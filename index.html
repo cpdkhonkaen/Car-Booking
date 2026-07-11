@@ -4145,7 +4145,7 @@
         <div class="row g-3 mb-3">
           <div class="col-md-6">
             <label class="form-label">สถานที่ปลายทาง <span style="color:red">*</span></label>
-            <input type="text" class="form-control" id="f-destination" maxlength="80" placeholder="ตัวอย่าง เช่น สหกรณ์โคนมขอนแก่น" />
+            <input type="text" class="form-control" id="f-destination" maxlength="71" placeholder="ตัวอย่าง เช่น สหกรณ์โคนมขอนแก่น" />
           </div>
           <div class="col-md-6">
             <label class="form-label">วัตถุประสงค์ <span style="color:red">*</span></label>
@@ -6827,8 +6827,8 @@ async function submitBooking() {
     return;
   }
 
-  if (formData.destination.length > 80) {
-    Swal.fire({ icon: 'warning', title: 'สถานที่ปลายทางยาวเกินไป', text: 'กรุณากรอกสถานที่ปลายทางไม่เกิน 80 ตัวอักษร', confirmButtonColor: '#1565c0' });
+  if (formData.destination.length > 71) {
+    Swal.fire({ icon: 'warning', title: 'สถานที่ปลายทางยาวเกินไป', text: 'กรุณากรอกสถานที่ปลายทางไม่เกิน 71 ตัวอักษร', confirmButtonColor: '#1565c0' });
     return;
   }
 
