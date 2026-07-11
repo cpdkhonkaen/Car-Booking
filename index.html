@@ -1194,6 +1194,16 @@
       width: 8%;
     }
 
+    .admin-driver-col {
+      min-width: 210px;
+      width: 15%;
+    }
+
+    .admin-status-col {
+      min-width: 190px;
+      width: 13%;
+    }
+
     .admin-purpose-place-lines .admin-place-line {
       display: block;
       margin-top: 2px;
@@ -4283,8 +4293,8 @@
               <th class="admin-use-date-col">วันที่ใช้งาน</th>
               <th class="admin-purpose-col">วัตถุประสงค์/สถานที่</th>
               <th class="admin-passenger-col">ผู้โดยสาร/ประเภทรถ</th>
-              <th>คนขับรถ/ทะเบียนรถ</th>
-              <th>สถานะ</th>
+              <th class="admin-driver-col">คนขับรถ/ทะเบียนรถ</th>
+              <th class="admin-status-col">สถานะ</th>
             </tr>
           </thead>
           <tbody id="admin-bookings-body">
@@ -7641,13 +7651,13 @@ function renderAdminBookings(list) {
             <strong>${b['จำนวนผู้โดยสาร'] || '-'} คน</strong><br>
             ${renderAdminVehicleTypeSelect(b)}
           </td>
-          <td data-label="คนขับ / ทะเบียนรถ" class="admin-driver-vehicle-cell">
-            <div style="display:flex;flex-direction:column;gap:5px;min-width:150px;">
+          <td data-label="คนขับ / ทะเบียนรถ" class="admin-driver-vehicle-cell admin-driver-col">
+            <div style="display:flex;flex-direction:column;gap:5px;min-width:0;width:100%;">
               ${renderAdminDriverSelect(b)}
               ${renderAdminVehicleSelect(b)}
             </div>
           </td>
-          <td data-label="สถานะ">${renderAdminStatusControl(b)}</td>
+          <td data-label="สถานะ" class="admin-status-col">${renderAdminStatusControl(b)}</td>
         </tr>`;
       }).join('')
     : '<tr><td colspan="8" style="text-align:center; color:#aaa; padding:30px;">ไม่พบรายการ</td></tr>';
