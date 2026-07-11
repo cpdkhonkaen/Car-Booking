@@ -1016,6 +1016,20 @@
       background: #dbeafe;
     }
 
+    .admin-bookings-table tbody tr.admin-request-sent-row td {
+      background: #dcfce7;
+      border-bottom-color: #86efac;
+      border-right-color: #bbf7d0;
+    }
+
+    .admin-bookings-table tbody tr.admin-request-sent-row td:first-child {
+      box-shadow: inset 5px 0 0 #16a34a;
+    }
+
+    .admin-bookings-table tbody tr.admin-request-sent-row:hover td {
+      background: #bbf7d0;
+    }
+
     .admin-bookings-table small {
       font-size: 13.5px;
     }
@@ -1169,6 +1183,59 @@
 
     .booking-detail-mini-btn.pdf:hover {
       background: #dcfce7;
+    }
+
+    .admin-permission-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      width: 100%;
+      margin-top: 2px;
+    }
+
+    .admin-permission-action-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      width: 100%;
+      min-height: 32px;
+      border: 1px solid #bbdefb;
+      border-radius: 8px;
+      background: #eef5ff;
+      color: #0d47a1;
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1.2;
+      cursor: pointer;
+      white-space: normal;
+      text-align: center;
+    }
+
+    .admin-permission-action-btn:hover {
+      background: #dbeafe;
+    }
+
+    .admin-permission-action-btn.pdf {
+      border-color: #86efac;
+      background: #ecfdf5;
+      color: #15803d;
+    }
+
+    .admin-permission-action-btn.pdf:hover {
+      background: #dcfce7;
+    }
+
+    .admin-permission-action-btn.sent {
+      border-color: #22c55e;
+      background: #16a34a;
+      color: #fff;
+    }
+
+    .admin-permission-action-btn.unsent {
+      border-color: #facc15;
+      background: #fef9c3;
+      color: #a16207;
     }
 
     .admin-cancel-alert {
@@ -3171,6 +3238,44 @@
       background: #3a2410 !important;
     }
 
+    body.dark-mode .admin-bookings-table tbody tr.admin-request-sent-row td {
+      background: #123321 !important;
+      border-bottom-color: #2e7d32 !important;
+      border-right-color: #1f6f3a !important;
+    }
+
+    body.dark-mode .admin-bookings-table tbody tr.admin-request-sent-row td:first-child {
+      box-shadow: inset 5px 0 0 #22c55e;
+    }
+
+    body.dark-mode .admin-bookings-table tbody tr.admin-request-sent-row:hover td {
+      background: #16452a !important;
+    }
+
+    body.dark-mode .admin-permission-action-btn {
+      background: #0f1a2b;
+      color: #90caf9;
+      border-color: #2b4262;
+    }
+
+    body.dark-mode .admin-permission-action-btn.pdf {
+      background: #123321;
+      color: #a5d6a7;
+      border-color: #2e7d32;
+    }
+
+    body.dark-mode .admin-permission-action-btn.sent {
+      background: #15803d;
+      color: #fff;
+      border-color: #22c55e;
+    }
+
+    body.dark-mode .admin-permission-action-btn.unsent {
+      background: #3a2f12;
+      color: #ffdd7a;
+      border-color: #8a6d18;
+    }
+
     @media (max-width: 768px) {
       body.dark-mode .mobile-table-wrap {
         background: #0b1220;
@@ -3834,6 +3939,11 @@
           <select class="form-select form-select-sm" id="filter-driver" onchange="loadAdminBookings()" style="width: 170px; font-size: 13px; border-radius: 8px;">
             <option value="">ทุกคนขับ</option>
           </select>
+          <select class="form-select form-select-sm" id="filter-permission-sent" onchange="loadAdminBookings()" style="width: 190px; font-size: 13px; border-radius: 8px;">
+            <option value="">ทุกใบขอใช้รถ</option>
+            <option value="unsent">ยังไม่ส่งใบคำขอใช้รถ</option>
+            <option value="sent">ส่งใบขอใช้รถแล้ว</option>
+          </select>
           <div class="search-bar" style="max-width: 220px;">
             <i class="bi bi-search" style="color: #aaa;"></i>
             <input type="text" placeholder="ค้นหา..." id="admin-search" oninput="loadAdminBookings()" />
@@ -4209,7 +4319,7 @@ const DATA_MUTATION_FUNCTIONS = new Set([
   'saveDriver', 'updateDriver', 'updateDriverLeave', 'updateDriverStatus', 'deleteDriver',
   'saveBooking', 'approveBooking', 'rejectBooking', 'requestCancelBooking',
   'requestEditBookingDateTime', 'applyEditBookingDateTimeRequest', 'clearEditBookingDateTimeRequest',
-  'changeBookingStatus', 'assignDriver', 'normalizeDriverStatuses',
+  'changeBookingStatus', 'toggleVehicleRequestSentStatus', 'assignDriver', 'normalizeDriverStatuses',
   'printVehiclePermissionForm',
   'initSheets'
 ]);
@@ -4218,7 +4328,7 @@ const DARK_MODE_KEY = 'vehicleBookingDarkMode';
 
 // ใส่ URL จาก Apps Script Deploy > Web app > /exec เมื่อต้องการรัน index บน GitHub/Vercel
 // ตัวอย่าง: https://script.google.com/macros/s/AKfycbxxxxxxxxxxxxxxxx/exec
-const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwrxNJRwPJRqdOan1IlCdUwF-QGHaNN-zj0oQc5e49rxZR-bbLuXnFjk-HQdvqH6uzw-A/exec';
+const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyu2moCycv8WEJV1mkwiqO9Z_Rw4i7_RCR7JjTWu2MqUj3kp7AiqeUCCK1XeYuOqPk9GQ/exec';
 
 /* ==============================================================
    INIT
@@ -4648,7 +4758,7 @@ function showDataLoadError(err) {
 
 function hasBookingFilters(filters) {
   if (!filters) return false;
-  return Boolean(filters.status || filters.vehicleType || filters.month || filters.driverId || filters.search);
+  return Boolean(filters.status || filters.vehicleType || filters.month || filters.driverId || filters.permissionSent || filters.search);
 }
 
 function filterBookingsLocally(bookings, filters) {
@@ -4667,6 +4777,8 @@ function filterBookingsLocally(bookings, filters) {
     if (filters.vehicleType && booking['ประเภทรถ'] !== filters.vehicleType) return false;
     if (month && normalizeDateForCalendar(booking['วันที่เริ่ม']).substring(0, 7) !== month) return false;
     if (filters.driverId && String(booking['คนขับ'] || '') !== String(filters.driverId)) return false;
+    if (filters.permissionSent === 'sent' && !bookingVehicleRequestIsSent(booking)) return false;
+    if (filters.permissionSent === 'unsent' && (!bookingCanHavePermissionPdf(booking) || bookingVehicleRequestIsSent(booking))) return false;
     if (!q) return true;
 
     return (
@@ -5011,6 +5123,19 @@ function getMockData(fn, ...args) {
       booking['เหตุผลขอแก้ไขวันเวลา'] = '';
       booking['วันที่ขอแก้ไขวันเวลา'] = '';
       return { success: true };
+    }
+    case 'toggleVehicleRequestSentStatus': {
+      const [bookingId, sent] = args;
+      const booking = db.bookings.find(x => String(x.ID) === String(bookingId));
+      if (!booking) return { success:false, message:'ไม่พบรายการจอง' };
+      const nextSent = sent === true || String(sent).toLowerCase() === 'true' || String(sent) === 'ส่งแล้ว';
+      booking['ส่งใบขอใช้รถแล้ว'] = nextSent ? 'ส่งแล้ว' : '';
+      return {
+        success: true,
+        sent: nextSent,
+        value: booking['ส่งใบขอใช้รถแล้ว'],
+        message: nextSent ? 'บันทึกว่าส่งใบขอใช้รถแล้ว' : 'บันทึกว่ายังไม่ส่งใบคำขอใช้รถ'
+      };
     }
     case 'rejectBooking': {
       const booking = db.bookings.find(x => String(x.ID) === String(args[0]));
@@ -6504,6 +6629,11 @@ function bookingCanHavePermissionPdf(b) {
     String(b['ชื่อคนขับ'] || b['คนขับ'] || '').trim();
 }
 
+function bookingVehicleRequestIsSent(b) {
+  const value = String(b?.['ส่งใบขอใช้รถแล้ว'] || '').trim();
+  return value === 'ส่งแล้ว' || value.toLowerCase() === 'true' || value === '1';
+}
+
 function bookingPermissionPdfButtonHtml(b, prefixBreak = true) {
   const prefix = prefixBreak ? '<br>' : '';
   if (bookingCanHavePermissionPdf(b)) {
@@ -6564,7 +6694,8 @@ async function loadAdminBookings() {
   const search = document.getElementById('admin-search').value;
   const month = document.getElementById('filter-month').value;
   const driverId = document.getElementById('filter-driver').value;
-  const bookings = await loadBookings({ status, search, month, driverId });
+  const permissionSent = document.getElementById('filter-permission-sent')?.value || '';
+  const bookings = await loadBookings({ status, search, month, driverId, permissionSent });
   renderAdminBookings(bookings);
 }
 
@@ -7034,6 +7165,26 @@ function formatAdminUsageDate(b) {
   return `${formatDate(startDate)} - ${formatDate(endDate)}`;
 }
 
+function renderAdminPermissionActions(b) {
+  if (!bookingCanHavePermissionPdf(b)) return '';
+
+  const sent = bookingVehicleRequestIsSent(b);
+  const nextSent = sent ? 'false' : 'true';
+  const sendClass = sent ? 'sent' : 'unsent';
+  const sendIcon = sent ? 'bi-check-circle-fill' : 'bi-envelope-exclamation-fill';
+  const sendText = sent ? 'ส่งใบขอใช้รถแล้ว' : 'ยังไม่ส่งใบคำขอใช้รถ';
+
+  return `
+    <div class="admin-permission-actions">
+      <button type="button" class="admin-permission-action-btn pdf" onclick="printVehiclePermissionForm('${escapeAttr(b.ID)}')">
+        <i class="bi bi-file-earmark-arrow-down-fill"></i> ดาวน์โหลด PDF
+      </button>
+      <button type="button" class="admin-permission-action-btn ${sendClass}" onclick="toggleVehicleRequestSentStatus('${escapeAttr(b.ID)}', ${nextSent})">
+        <i class="bi ${sendIcon}"></i> ${sendText}
+      </button>
+    </div>`;
+}
+
 function renderAdminStatusControl(b) {
   const rejectReason = adminRejectReasonText(b);
   const cancelReason = adminCancelReasonText(b);
@@ -7049,6 +7200,7 @@ function renderAdminStatusControl(b) {
       ${b['สถานะ'] === 'ไม่อนุมัติ' && rejectReason ? `<small class="admin-reject-reason"><i class="bi bi-chat-left-text-fill"></i>${escapeAttr(rejectReason)}</small>` : ''}
       ${cancelReason ? `<small class="admin-cancel-reason"><i class="bi bi-x-octagon-fill"></i>เหตุผลขอยกเลิก: ${escapeAttr(cancelReason)}</small>` : ''}
       ${editRequest ? `<small class="admin-edit-time-reason"><i class="bi bi-clock-history"></i>ขอแก้วัน/เวลา: ${escapeAttr(formatEditTimeRequestRange(editRequest))}</small>` : ''}
+      ${renderAdminPermissionActions(b)}
     </div>`;
 }
 
@@ -7058,9 +7210,12 @@ function renderAdminBookings(list) {
     ? list.map(b => {
         const cancelReason = adminCancelReasonText(b);
         const editRequest = getEditTimeRequest(b);
-        const actionRequestClass = cancelReason ? 'admin-cancel-request-row' : editRequest ? 'admin-edit-time-request-row' : '';
+        const rowClasses = [
+          cancelReason ? 'admin-cancel-request-row' : editRequest ? 'admin-edit-time-request-row' : '',
+          bookingCanHavePermissionPdf(b) && bookingVehicleRequestIsSent(b) ? 'admin-request-sent-row' : ''
+        ].filter(Boolean).join(' ');
         return `
-        <tr class="${actionRequestClass}">
+        <tr class="${rowClasses}">
           <td data-label="รหัส"><code style="font-size:11px;">${b.ID}</code></td>
           <td data-label="วันที่จอง">${formatDate(b['วันที่จอง'])}</td>
           <td data-label="ผู้จอง" class="admin-booker-col">
@@ -7120,13 +7275,21 @@ function getAdminExportFilters() {
     search: document.getElementById('admin-search')?.value.trim() || '',
     month: document.getElementById('filter-month')?.value || '',
     driverId: document.getElementById('filter-driver')?.value || '',
-    driverName: document.getElementById('filter-driver')?.selectedOptions?.[0]?.textContent || 'ทุกคนขับ'
+    driverName: document.getElementById('filter-driver')?.selectedOptions?.[0]?.textContent || 'ทุกคนขับ',
+    permissionSent: document.getElementById('filter-permission-sent')?.value || '',
+    permissionSentLabel: adminPermissionSentFilterLabel(document.getElementById('filter-permission-sent')?.value || '')
   };
 }
 
 function adminStatusFilterLabel(status) {
   if (status === '__ACTION_REQUIRED__') return 'งานรอดำเนินการ';
   return status || 'ทั้งหมด';
+}
+
+function adminPermissionSentFilterLabel(value) {
+  if (value === 'sent') return 'ส่งใบขอใช้รถแล้ว';
+  if (value === 'unsent') return 'ยังไม่ส่งใบคำขอใช้รถ';
+  return 'ทุกใบขอใช้รถ';
 }
 
 function getAdminExportBookings() {
@@ -7189,7 +7352,7 @@ function downloadAdminExcel() {
     <body>
       <table border="1">
         <tr><th colspan="13">รายงานการจองรถ</th></tr>
-        <tr><td colspan="13">สถานะ: ${escapeAttr(filters.statusLabel || adminStatusFilterLabel(filters.status))} | เดือน: ${escapeAttr(filters.month || 'ทั้งหมด')} | คนขับ: ${escapeAttr(filters.driverName || 'ทุกคนขับ')} | ค้นหา: ${escapeAttr(filters.search || '-')}</td></tr>
+        <tr><td colspan="13">สถานะ: ${escapeAttr(filters.statusLabel || adminStatusFilterLabel(filters.status))} | เดือน: ${escapeAttr(filters.month || 'ทั้งหมด')} | คนขับ: ${escapeAttr(filters.driverName || 'ทุกคนขับ')} | ใบขอใช้รถ: ${escapeAttr(filters.permissionSentLabel || adminPermissionSentFilterLabel(filters.permissionSent))} | ค้นหา: ${escapeAttr(filters.search || '-')}</td></tr>
         <tr>
           <th>รหัส</th><th>วันที่จอง</th><th>ผู้จอง</th><th>กลุ่มงาน</th><th>เบอร์โทร</th>
           <th>รถ</th><th>วันที่ใช้งาน</th><th>เวลา</th><th>สถานที่</th><th>วัตถุประสงค์</th>
@@ -7246,7 +7409,7 @@ function buildAdminReportHtml() {
       <div class="meta">
         วันที่ออกรายงาน: ${escapeAttr(new Date().toLocaleString('th-TH'))}<br>
         จำนวนรายการ: ${rows.length}<br>
-        เงื่อนไข: สถานะ=${escapeAttr(filters.statusLabel || adminStatusFilterLabel(filters.status))}, เดือน=${escapeAttr(filters.month || 'ทั้งหมด')}, คนขับ=${escapeAttr(filters.driverName || 'ทุกคนขับ')}, ค้นหา=${escapeAttr(filters.search || '-')}
+        เงื่อนไข: สถานะ=${escapeAttr(filters.statusLabel || adminStatusFilterLabel(filters.status))}, เดือน=${escapeAttr(filters.month || 'ทั้งหมด')}, คนขับ=${escapeAttr(filters.driverName || 'ทุกคนขับ')}, ใบขอใช้รถ=${escapeAttr(filters.permissionSentLabel || adminPermissionSentFilterLabel(filters.permissionSent))}, ค้นหา=${escapeAttr(filters.search || '-')}
       </div>
       <table>
         <thead>
@@ -7487,6 +7650,58 @@ async function printVehiclePermissionForm(id) {
       icon: 'error',
       title: 'สร้าง PDF ไม่สำเร็จ',
       text: res?.message || 'ไม่สามารถสร้างไฟล์ PDF สำหรับดาวน์โหลดได้',
+      confirmButtonColor: '#1565c0'
+    });
+  } catch (err) {
+    hideLoading();
+    Swal.fire({
+      icon: 'error',
+      title: 'เกิดข้อผิดพลาด',
+      text: err.message || String(err),
+      confirmButtonColor: '#1565c0'
+    });
+  }
+}
+
+async function toggleVehicleRequestSentStatus(id, sent) {
+  const nextSent = Boolean(sent);
+  const confirm = await Swal.fire({
+    icon: nextSent ? 'question' : 'warning',
+    title: nextSent ? 'บันทึกว่าส่งใบขอใช้รถแล้ว?' : 'เปลี่ยนกลับเป็นยังไม่ส่ง?',
+    text: nextSent
+      ? 'รายการนี้จะเปลี่ยนเป็นแถบสีเขียวในหน้าอนุมัติการจอง'
+      : 'รายการนี้จะกลับมาเป็นสีปกติ และปุ่มจะแสดงว่ายังไม่ส่งใบคำขอใช้รถ',
+    showCancelButton: true,
+    confirmButtonText: nextSent ? 'ยืนยันว่าส่งแล้ว' : 'ยืนยันว่ายังไม่ส่ง',
+    cancelButtonText: 'ยกเลิก',
+    confirmButtonColor: nextSent ? '#16a34a' : '#f59e0b',
+  });
+  if (!confirm.isConfirmed) return;
+
+  showLoading();
+  try {
+    const res = await gasCall('toggleVehicleRequestSentStatus', id, nextSent);
+    hideLoading();
+
+    if (res && res.success) {
+      const booking = APP.allBookings.find(b => String(b.ID) === String(id));
+      if (booking) booking['ส่งใบขอใช้รถแล้ว'] = res.value || (res.sent ? 'ส่งแล้ว' : '');
+      Swal.fire({
+        icon: 'success',
+        title: res.sent ? 'บันทึกว่าส่งแล้ว' : 'บันทึกว่ายังไม่ส่ง',
+        text: res.message || '',
+        confirmButtonColor: '#1565c0',
+        timer: 1400,
+        showConfirmButton: false
+      });
+      await loadAdminBookings();
+      return;
+    }
+
+    Swal.fire({
+      icon: 'error',
+      title: 'บันทึกไม่สำเร็จ',
+      text: res?.message || 'ไม่สามารถบันทึกสถานะส่งใบขอใช้รถได้',
       confirmButtonColor: '#1565c0'
     });
   } catch (err) {
