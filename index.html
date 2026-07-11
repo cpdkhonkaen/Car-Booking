@@ -1168,6 +1168,12 @@
       width: 14%;
     }
 
+    .admin-use-date-col {
+      min-width: 185px;
+      width: 13%;
+      white-space: nowrap;
+    }
+
     .admin-booker-phone {
       display: inline-flex;
       align-items: center;
@@ -1179,8 +1185,13 @@
     }
 
     .admin-purpose-col {
-      min-width: 420px;
-      width: 30%;
+      min-width: 300px;
+      width: 23%;
+    }
+
+    .admin-passenger-col {
+      min-width: 120px;
+      width: 8%;
     }
 
     .admin-note-text,
@@ -4229,9 +4240,9 @@
               <th>รหัส</th>
               <th>วันที่จอง</th>
               <th class="admin-booker-col">ผู้จอง</th>
-              <th>วันที่ใช้งาน</th>
+              <th class="admin-use-date-col">วันที่ใช้งาน</th>
               <th class="admin-purpose-col">วัตถุประสงค์/สถานที่</th>
-              <th>ผู้โดยสาร/ประเภทรถ</th>
+              <th class="admin-passenger-col">ผู้โดยสาร/ประเภทรถ</th>
               <th>คนขับรถ/ทะเบียนรถ</th>
               <th>สถานะ</th>
             </tr>
@@ -7554,9 +7565,9 @@ function renderAdminBookings(list) {
             <small style="color:#64748b;">${b['กลุ่มงาน'] || '-'}</small><br>
             <span class="admin-booker-phone"><i class="bi bi-telephone-fill"></i>${formatPhone(b['เบอร์โทร']) || '-'}</span>
           </td>
-          <td data-label="วันที่ใช้งาน">
-            ${formatAdminUsageDate(b)}<br>
-            <small>${b['เวลาออก']}–${b['เวลากลับ']}</small>
+          <td data-label="วันที่ใช้งาน" class="admin-use-date-col">
+            ${formatDate(b['วันที่เริ่ม'])} ${escapeAttr(b['เวลาออก'] || '-')}<br>
+            ถึง ${formatDate(b['วันที่สิ้นสุด'] || b['วันที่เริ่ม'])} ${escapeAttr(b['เวลากลับ'] || '-')}
           </td>
           <td data-label="วัตถุประสงค์ / สถานที่" class="admin-purpose-col">
             <strong style="color:#0d47a1;">${b['วัตถุประสงค์'] || '-'}</strong><br>
@@ -7582,7 +7593,7 @@ function renderAdminBookings(list) {
             </div>` : ''}
             ${b['หมายเหตุ'] ? `<br><small class="admin-note-text">หมายเหตุ: ${escapeAttr(b['หมายเหตุ'])}</small>` : ''}
           </td>
-          <td data-label="ผู้โดยสาร / ประเภทรถ" style="text-align:center;">
+          <td data-label="ผู้โดยสาร / ประเภทรถ" class="admin-passenger-col" style="text-align:center;">
             <strong>${b['จำนวนผู้โดยสาร'] || '-'} คน</strong><br>
             ${renderAdminVehicleTypeSelect(b)}
           </td>
