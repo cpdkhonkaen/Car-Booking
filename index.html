@@ -7186,10 +7186,32 @@ function renderAdminPermissionActions(b) {
       <button type="button" class="admin-permission-action-btn pdf" onclick="printVehiclePermissionForm('${escapeAttr(b.ID)}')">
         <i class="bi bi-file-earmark-arrow-down-fill"></i> ดาวน์โหลด PDF
       </button>
-      <button type="button" class="admin-permission-action-btn ${sendClass}" onclick="toggleVehicleRequestSentStatus('${escapeAttr(b.ID)}', ${nextSent})">
+      <button type="button" class="admin-permission-action-btn ${sendClass}" data-booking-id="${escapeAttr(b.ID)}" onclick="toggleVehicleRequestSentStatus('${escapeAttr(b.ID)}', ${nextSent}, this)">
         <i class="bi ${sendIcon}"></i> ${sendText}
       </button>
     </div>`;
+}
+
+function setLocalVehicleRequestSentStatus(id, sent) {
+  (APP.allBookings || []).forEach(booking => {
+    if (String(booking.ID) === String(id)) {
+      booking['ส่งใบขอใช้รถแล้ว'] = sent ? 'ส่งแล้ว' : '';
+    }
+  });
+}
+
+function paintVehicleRequestSentButton(button, id, sent) {
+  if (!button) return;
+  button.classList.toggle('sent', sent);
+  button.classList.toggle('unsent', !sent);
+  button.dataset.bookingId = String(id);
+  button.innerHTML = sent
+    ? '<i class="bi bi-check-circle-fill"></i> ส่งใบขอใช้รถแล้ว'
+    : '<i class="bi bi-envelope-exclamation-fill"></i> ยังไม่ส่งใบคำขอใช้รถ';
+  button.onclick = () => toggleVehicleRequestSentStatus(id, !sent, button);
+
+  const row = button.closest('tr');
+  if (row) row.classList.toggle('admin-request-sent-row', sent);
 }
 
 function renderAdminStatusControl(b) {
@@ -7670,8 +7692,8 @@ async function printVehiclePermissionForm(id) {
   }
 }
 
-async function toggleVehicleRequestSentStatus(id, sent) {
-  const nextSent = Boolean(sent);
+async function toggleVehicleRequestSentStatus(id, sent, button) {
+  const nextSent = sent === true || String(sent).toLowerCase() === 'true' || String(sent) === 'ส่งแล้ว';
   const confirm = await Swal.fire({
     icon: nextSent ? 'question' : 'warning',
     title: nextSent ? 'บันทึกว่าส่งใบขอใช้รถแล้ว?' : 'เปลี่ยนกลับเป็นยังไม่ส่ง?',
@@ -7691,12 +7713,12 @@ async function toggleVehicleRequestSentStatus(id, sent) {
     hideLoading();
 
     if (res && res.success) {
-      const booking = APP.allBookings.find(b => String(b.ID) === String(id));
-      if (booking) booking['ส่งใบขอใช้รถแล้ว'] = res.value || (res.sent ? 'ส่งแล้ว' : '');
+      setLocalVehicleRequestSentStatus(id, nextSent);
+      paintVehicleRequestSentButton(button, id, nextSent);
       renderAdminBookings(filterAdminBookingsFromCache());
       Swal.fire({
         icon: 'success',
-        title: res.sent ? 'บันทึกว่าส่งแล้ว' : 'บันทึกว่ายังไม่ส่ง',
+        title: nextSent ? 'บันทึกว่าส่งแล้ว' : 'บันทึกว่ายังไม่ส่ง',
         text: res.message || '',
         confirmButtonColor: '#1565c0',
         timer: 1400,
