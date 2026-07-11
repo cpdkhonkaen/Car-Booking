@@ -4328,7 +4328,7 @@ const DARK_MODE_KEY = 'vehicleBookingDarkMode';
 
 // ใส่ URL จาก Apps Script Deploy > Web app > /exec เมื่อต้องการรัน index บน GitHub/Vercel
 // ตัวอย่าง: https://script.google.com/macros/s/AKfycbxxxxxxxxxxxxxxxx/exec
-const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyu2moCycv8WEJV1mkwiqO9Z_Rw4i7_RCR7JjTWu2MqUj3kp7AiqeUCCK1XeYuOqPk9GQ/exec';
+const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxOjgfaj2Ga8P0o_GnwtleyxC_t1PdcevQtqI4FFEMQtbUT-C5WXy6bELZX8UWfPIcf_g/exec';
 
 /* ==============================================================
    INIT
@@ -6633,8 +6633,33 @@ function bookingCanHavePermissionPdf(b) {
 }
 
 function bookingVehicleRequestIsSent(b) {
-  const value = String(b?.['ส่งใบขอใช้รถแล้ว'] || '').trim();
+  const value = bookingVehicleRequestSentValue(b);
   return value === 'ส่งแล้ว' || value.toLowerCase() === 'true' || value === '1';
+}
+
+function bookingVehicleRequestSentValue(b) {
+  if (!b) return '';
+  const directKeys = [
+    'ส่งใบขอใช้รถแล้ว',
+    'ส่งใบคำขอใช้รถแล้ว',
+    'สถานะส่งใบขอใช้รถ',
+    'สถานะส่งใบคำขอใช้รถ',
+    'ส่งใบขอใช้รถ',
+    'ส่งใบคำขอใช้รถ'
+  ];
+  for (const key of directKeys) {
+    const value = String(b[key] || '').trim();
+    if (value) return value;
+  }
+  const targetNames = directKeys.map(key => key.replace(/\s+/g, ''));
+  for (const key of Object.keys(b)) {
+    const normalizedKey = String(key || '').trim().replace(/\s+/g, '');
+    if (targetNames.includes(normalizedKey)) {
+      const value = String(b[key] || '').trim();
+      if (value) return value;
+    }
+  }
+  return '';
 }
 
 function bookingPermissionPdfButtonHtml(b, prefixBreak = true) {
