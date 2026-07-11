@@ -7322,7 +7322,7 @@ function adminPermissionSentFilterLabel(value) {
 }
 
 function getAdminExportBookings() {
-  return Array.isArray(APP.allBookings) ? APP.allBookings : [];
+  return filterAdminBookingsFromCache();
 }
 
 function adminExportRows(bookings) {
@@ -7404,7 +7404,7 @@ function buildAdminReportHtml() {
       <td>${escapeAttr(row.booker)}<br><small>${escapeAttr(row.dept)}</small></td>
       <td>${escapeAttr(row.vehicle || '-')}</td>
       <td>${escapeAttr(row.usageDate)}<br><small>${escapeAttr(row.usageTime)}</small></td>
-      <td>${escapeAttr(row.destination)}</td>
+      <td><strong>${escapeAttr(row.purpose || '-')}</strong><br><small>${escapeAttr(row.destination || '-')}</small></td>
       <td>${escapeAttr(row.driver || '-')}</td>
       <td>${escapeAttr(row.status)}</td>
     </tr>`).join('');
@@ -7442,7 +7442,7 @@ function buildAdminReportHtml() {
       </div>
       <table>
         <thead>
-          <tr><th>รหัส</th><th>ผู้จอง</th><th>รถ</th><th>วันที่/เวลา</th><th>สถานที่</th><th>คนขับ</th><th>สถานะ</th></tr>
+          <tr><th>รหัส</th><th>ผู้จอง</th><th>รถ</th><th>วันที่/เวลา</th><th>วัตถุประสงค์/สถานที่</th><th>คนขับ</th><th>สถานะ</th></tr>
         </thead>
         <tbody>${tableRows || '<tr><td colspan="7" style="text-align:center;">ไม่พบข้อมูล</td></tr>'}</tbody>
       </table>
