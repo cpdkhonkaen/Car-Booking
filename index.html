@@ -4145,11 +4145,11 @@
         <div class="row g-3 mb-3">
           <div class="col-md-6">
             <label class="form-label">สถานที่ปลายทาง <span style="color:red">*</span></label>
-            <input type="text" class="form-control" id="f-destination" maxlength="71" placeholder="ตัวอย่าง เช่น สหกรณ์โคนมขอนแก่น" />
+            <input type="text" class="form-control" id="f-destination" maxlength="71" onbeforeinput="limitBookingTextBeforeInput(event, this, 71, 'สถานที่ปลายทาง')" onpaste="limitBookingTextPaste(event, this, 71, 'สถานที่ปลายทาง')" placeholder="ตัวอย่าง เช่น สหกรณ์โคนมขอนแก่น" />
           </div>
           <div class="col-md-6">
             <label class="form-label">วัตถุประสงค์ <span style="color:red">*</span></label>
-            <input type="text" class="form-control" id="f-purpose" maxlength="140" placeholder="ตัวอย่าง เช่น ชื่อโครงการ.../อบรม.../ส่งหนังสือ..." />
+            <input type="text" class="form-control" id="f-purpose" maxlength="140" onbeforeinput="limitBookingTextBeforeInput(event, this, 140, 'วัตถุประสงค์')" onpaste="limitBookingTextPaste(event, this, 140, 'วัตถุประสงค์')" placeholder="ตัวอย่าง เช่น ชื่อโครงการ.../อบรม.../ส่งหนังสือ..." />
           </div>
         </div>
 
@@ -6789,6 +6789,47 @@ async function renderVehiclesTable() {
 ============================================================== */
 async function checkAvailability() {
   // ตรวจรถว่างในขั้นตอนอนุมัติ เพราะ Admin เป็นผู้เลือกทะเบียนรถ
+}
+
+function showBookingTextLimitWarning(input, label, max) {
+  const now = Date.now();
+  const lastWarnedAt = Number(input?.dataset?.limitWarnedAt || 0);
+  if (now - lastWarnedAt < 1200) return;
+  if (input?.dataset) input.dataset.limitWarnedAt = String(now);
+  Swal.fire({
+    icon: 'warning',
+    title: `${label}ยาวเกินไป`,
+    text: `กรุณากรอก${label}ไม่เกิน ${max} ตัวอักษร`,
+    confirmButtonColor: '#1565c0'
+  });
+}
+
+function insertTextWithinLimit(input, text, max, label) {
+  if (!input || !text) return false;
+  const start = input.selectionStart ?? input.value.length;
+  const end = input.selectionEnd ?? input.value.length;
+  const selectedLength = Math.max(0, end - start);
+  const available = max - (input.value.length - selectedLength);
+  if (text.length <= available) return false;
+  if (available > 0) {
+    input.setRangeText(text.slice(0, available), start, end, 'end');
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+  showBookingTextLimitWarning(input, label, max);
+  return true;
+}
+
+function limitBookingTextBeforeInput(event, input, max, label) {
+  if (!event || event.isComposing) return;
+  const inputType = event.inputType || '';
+  if (inputType.startsWith('delete') || inputType.startsWith('history')) return;
+  const text = event.data || event.dataTransfer?.getData('text/plain') || '';
+  if (insertTextWithinLimit(input, text, max, label)) event.preventDefault();
+}
+
+function limitBookingTextPaste(event, input, max, label) {
+  const text = event?.clipboardData?.getData('text') || '';
+  if (insertTextWithinLimit(input, text, max, label)) event.preventDefault();
 }
 
 /* ==============================================================
