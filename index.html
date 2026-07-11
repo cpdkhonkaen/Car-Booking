@@ -963,6 +963,49 @@
 
     .custom-table tbody tr:hover { background: #f8faff; }
 
+    #page-my-bookings .my-bookings-table {
+      table-layout: fixed;
+      min-width: 1180px;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+
+    #page-my-bookings .my-bookings-table thead th {
+      position: sticky;
+      top: var(--header-h);
+      z-index: 30;
+      background: #eef4ff;
+      border-bottom: 2px solid #9eb7dc;
+      box-shadow: 0 2px 0 rgba(21, 101, 192, 0.12);
+    }
+
+    #page-my-bookings .my-bookings-table tbody td {
+      border-bottom: 2px solid #d5e0f0;
+      border-right: 1px solid #e1e8f4;
+      line-height: 1.45;
+    }
+
+    #page-my-bookings .my-bookings-table tbody td:last-child {
+      border-right: none;
+    }
+
+    #page-my-bookings .my-bookings-table tbody tr:nth-child(even) {
+      background: #fbfdff;
+    }
+
+    #page-my-bookings .my-bookings-table tbody tr:hover {
+      background: #eef6ff;
+    }
+
+    #page-my-bookings .my-col-id { width: 4%; }
+    #page-my-bookings .my-col-booked-date { width: 7.5%; }
+    #page-my-bookings .my-col-booker { width: 12.5%; }
+    #page-my-bookings .my-col-department { width: 9%; }
+    #page-my-bookings .my-col-driver-car { width: 17%; }
+    #page-my-bookings .my-col-use-date { width: 10%; }
+    #page-my-bookings .my-col-purpose-place { width: 26%; }
+    #page-my-bookings .my-col-status { width: 14%; }
+
     .admin-bookings-table thead th {
       font-size: 13.5px;
       letter-spacing: 0;
@@ -1869,6 +1912,34 @@
         display: none;
       }
 
+      #page-my-bookings .my-bookings-table {
+        min-width: 0;
+        table-layout: auto;
+      }
+
+      #page-my-bookings .my-bookings-table thead th {
+        position: static;
+      }
+
+      #page-my-bookings .my-bookings-table .my-col-id,
+      #page-my-bookings .my-bookings-table .my-col-booked-date,
+      #page-my-bookings .my-bookings-table .my-col-booker,
+      #page-my-bookings .my-bookings-table .my-col-department,
+      #page-my-bookings .my-bookings-table .my-col-driver-car,
+      #page-my-bookings .my-bookings-table .my-col-use-date,
+      #page-my-bookings .my-bookings-table .my-col-purpose-place,
+      #page-my-bookings .my-bookings-table .my-col-status {
+        width: 100% !important;
+      }
+
+      #page-my-bookings .mobile-card-table tbody tr {
+        border-color: #c7d7ec;
+      }
+
+      #page-my-bookings .mobile-card-table tbody td {
+        border-bottom-color: #d5e0f0 !important;
+      }
+
       .admin-bookings-table .admin-status-select,
       .admin-bookings-table .form-select-sm {
         width: 100% !important;
@@ -1938,6 +2009,116 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+      }
+
+      #page-admin .mobile-table-wrap {
+        padding: 6px !important;
+      }
+
+      #page-admin .mobile-card-table tbody {
+        gap: 8px;
+      }
+
+      #page-admin .mobile-card-table tbody tr {
+        border: 1.5px solid #bfdbfe;
+        border-left: 5px solid #3b82f6;
+        border-radius: 9px;
+        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+      }
+
+      #page-admin .mobile-card-table tbody tr.admin-request-sent-row {
+        border-color: #86efac;
+        border-left-color: #16a34a;
+      }
+
+      #page-admin .mobile-card-table tbody td {
+        grid-template-columns: 88px minmax(0, 1fr);
+        gap: 7px;
+        padding: 7px 9px !important;
+        margin: 0;
+        border-bottom: 1px solid #dbeafe !important;
+        font-size: 12.5px;
+        line-height: 1.28;
+        background: #fff !important;
+      }
+
+      #page-admin .mobile-card-table tbody td::before {
+        color: #475569;
+        font-size: 11.5px;
+        line-height: 1.2;
+      }
+
+      #page-admin .mobile-card-table tbody td[data-label="รหัส"] {
+        background: #fdf2f8 !important;
+        border-left: 3px solid #ec4899;
+      }
+
+      #page-admin .mobile-card-table tbody td[data-label="วันที่จอง"],
+      #page-admin .mobile-card-table tbody td[data-label="วันที่ใช้งาน"] {
+        background: #eff6ff !important;
+        border-left: 3px solid #3b82f6;
+      }
+
+      #page-admin .mobile-card-table tbody td[data-label="ผู้จอง"] {
+        background: #f8fafc !important;
+        border-left: 3px solid #64748b;
+      }
+
+      #page-admin .mobile-card-table tbody td.admin-purpose-col {
+        padding: 8px 9px !important;
+        background: #f0f9ff !important;
+        border-left: 3px solid #0ea5e9;
+      }
+
+      #page-admin .mobile-card-table tbody td[data-label="ผู้โดยสาร / ประเภทรถ"] {
+        background: #fff7ed !important;
+        border-left: 3px solid #f97316;
+      }
+
+      #page-admin .mobile-card-table tbody td.admin-driver-vehicle-cell {
+        background: #f5f3ff !important;
+        border-left: 3px solid #8b5cf6;
+      }
+
+      #page-admin .mobile-card-table tbody td[data-label="สถานะ"] {
+        background: #f0fdf4 !important;
+        border-left: 3px solid #22c55e;
+        padding-bottom: 9px !important;
+      }
+
+      #page-admin .mobile-card-table tbody tr.admin-request-sent-row td {
+        background: #dcfce7 !important;
+      }
+
+      #page-admin .admin-booker-phone {
+        margin-top: 2px;
+        font-size: 12.5px;
+      }
+
+      #page-admin .admin-purpose-col strong {
+        font-size: 13px;
+        line-height: 1.3;
+      }
+
+      #page-admin .admin-purpose-col small {
+        margin-top: 3px;
+        font-size: 12px;
+        line-height: 1.25;
+      }
+
+      #page-admin .admin-status-select {
+        min-height: 34px;
+        font-size: 12.5px !important;
+      }
+
+      #page-admin .admin-permission-actions {
+        gap: 5px;
+      }
+
+      #page-admin .admin-permission-action-btn {
+        min-height: 30px;
+        padding: 5px 7px;
+        font-size: 11.5px;
       }
 
       .cancel-booking-swal {
@@ -3200,6 +3381,25 @@
       color: #90caf9 !important;
     }
 
+    body.dark-mode #page-my-bookings .my-bookings-table thead th {
+      background: #13233a !important;
+      border-bottom-color: #3b5273 !important;
+      box-shadow: 0 2px 0 rgba(144, 202, 249, 0.14);
+    }
+
+    body.dark-mode #page-my-bookings .my-bookings-table tbody td {
+      border-bottom-color: #2b4262 !important;
+      border-right-color: #1f314a !important;
+    }
+
+    body.dark-mode #page-my-bookings .my-bookings-table tbody tr:nth-child(even) td {
+      background: #0f1a2b !important;
+    }
+
+    body.dark-mode #page-my-bookings .my-bookings-table tbody tr:hover td {
+      background: #162a46 !important;
+    }
+
     body.dark-mode .admin-note-text,
     body.dark-mode .admin-reject-reason,
     body.dark-mode .admin-cancel-reason {
@@ -3297,6 +3497,61 @@
 
       body.dark-mode .admin-bookings-table tbody tr.admin-cancel-request-row {
         border-color: #f97316;
+      }
+
+      body.dark-mode #page-admin .mobile-card-table tbody tr {
+        border-color: #2b4262;
+        border-left-color: #60a5fa;
+      }
+
+      body.dark-mode #page-admin .mobile-card-table tbody tr.admin-request-sent-row {
+        border-color: #2e7d32;
+        border-left-color: #22c55e;
+      }
+
+      body.dark-mode #page-admin .mobile-card-table tbody td {
+        background: #111c2e !important;
+        border-bottom-color: #24364f !important;
+      }
+
+      body.dark-mode #page-admin .mobile-card-table tbody td[data-label="รหัส"] {
+        background: #2a1730 !important;
+        border-left-color: #f472b6;
+      }
+
+      body.dark-mode #page-admin .mobile-card-table tbody td[data-label="วันที่จอง"],
+      body.dark-mode #page-admin .mobile-card-table tbody td[data-label="วันที่ใช้งาน"] {
+        background: #10233f !important;
+        border-left-color: #60a5fa;
+      }
+
+      body.dark-mode #page-admin .mobile-card-table tbody td[data-label="ผู้จอง"] {
+        background: #111827 !important;
+        border-left-color: #94a3b8;
+      }
+
+      body.dark-mode #page-admin .mobile-card-table tbody td.admin-purpose-col {
+        background: #0c2637 !important;
+        border-left-color: #38bdf8;
+      }
+
+      body.dark-mode #page-admin .mobile-card-table tbody td[data-label="ผู้โดยสาร / ประเภทรถ"] {
+        background: #2a1a0b !important;
+        border-left-color: #fb923c;
+      }
+
+      body.dark-mode #page-admin .mobile-card-table tbody td.admin-driver-vehicle-cell {
+        background: #1f1a3a !important;
+        border-left-color: #a78bfa;
+      }
+
+      body.dark-mode #page-admin .mobile-card-table tbody td[data-label="สถานะ"] {
+        background: #0d2a1b !important;
+        border-left-color: #22c55e;
+      }
+
+      body.dark-mode #page-admin .mobile-card-table tbody tr.admin-request-sent-row td {
+        background: #123321 !important;
       }
     }
 
@@ -3559,7 +3814,7 @@
     <div class="login-logo">
       <img src="https://img1.pic.in.th/images/9564.png" alt="สำนักงานสหกรณ์จังหวัดขอนแก่น">
     </div>
-    <h1 class="login-title">ระบบจองรถราชการ</h1>
+    <h1 class="login-title">ระบบจองรถ</h1>
     <div class="login-office">สำนักงานสหกรณ์จังหวัดขอนแก่น</div>
     <input type="password" class="login-input" id="login-password" placeholder="รหัสผ่านระบบ" autocomplete="current-password" />
     <button type="submit" class="login-button" id="login-button">เข้าสู่ระบบ</button>
@@ -3575,7 +3830,7 @@
     </div>
     <div class="logo-text">
       <div class="logo-office">สำนักงานสหกรณ์จังหวัดขอนแก่น</div>
-      ระบบจองรถราชการ
+      ระบบจองรถ
       <div class="logo-sub">Car Booking</div>
     </div>
   </div>
@@ -3891,19 +4146,18 @@
         <table class="custom-table mobile-card-table my-bookings-table">
           <thead>
             <tr>
-              <th>รหัส</th>
-              <th>วันที่จอง</th>
-              <th>ชื่อผู้จอง</th>
-              <th>กลุ่มงาน</th>
-              <th>รถ</th>
-              <th>วันที่ใช้งาน</th>
-              <th>สถานที่</th>
-              <th>วัตถุประสงค์</th>
-              <th>สถานะ</th>
+              <th class="my-col-id">รหัส</th>
+              <th class="my-col-booked-date">วันที่จอง</th>
+              <th class="my-col-booker">ชื่อผู้จอง</th>
+              <th class="my-col-department">กลุ่มงาน</th>
+              <th class="my-col-driver-car">คนขับ/รถ</th>
+              <th class="my-col-use-date">วันที่ใช้งาน</th>
+              <th class="my-col-purpose-place">วัตถุประสงค์/สถานที่</th>
+              <th class="my-col-status">สถานะ</th>
             </tr>
           </thead>
           <tbody id="my-bookings-body">
-            <tr><td colspan="9" style="text-align:center; color:#aaa; padding:30px;">กำลังโหลด...</td></tr>
+            <tr><td colspan="8" style="text-align:center; color:#aaa; padding:30px;">กำลังโหลด...</td></tr>
           </tbody>
         </table>
       </div>
@@ -4328,7 +4582,7 @@ const DARK_MODE_KEY = 'vehicleBookingDarkMode';
 
 // ใส่ URL จาก Apps Script Deploy > Web app > /exec เมื่อต้องการรัน index บน GitHub/Vercel
 // ตัวอย่าง: https://script.google.com/macros/s/AKfycbxxxxxxxxxxxxxxxx/exec
-const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyNqnXTnDV-W-sWx52zti2ntTC3aCWPdZJTw6GjOzlvEs8-jIACVYX0f8dqfaxZuRscLg/exec';
+const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyu2moCycv8WEJV1mkwiqO9Z_Rw4i7_RCR7JjTWu2MqUj3kp7AiqeUCCK1XeYuOqPk9GQ/exec';
 
 /* ==============================================================
    INIT
@@ -4739,7 +4993,7 @@ function dataLoadErrorHtml(err) {
 function showDataLoadError(err) {
   const tableHtml = dataLoadErrorHtml(err);
   const myBody = document.getElementById('my-bookings-body');
-  if (myBody) myBody.innerHTML = `<tr><td colspan="9">${tableHtml}</td></tr>`;
+  if (myBody) myBody.innerHTML = `<tr><td colspan="8">${tableHtml}</td></tr>`;
   const adminBody = document.getElementById('admin-bookings-body');
   if (adminBody) adminBody.innerHTML = `<tr><td colspan="8">${tableHtml}</td></tr>`;
   const driverSchedule = document.getElementById('driver-schedule-table');
@@ -6680,21 +6934,23 @@ function renderMyBookings(list) {
         const editRequest = getEditTimeRequest(b);
         return `
         <tr>
-          <td data-label="รหัส"><code style="font-size:11px;">${b.ID || '-'}</code></td>
-          <td data-label="วันที่จอง">${formatDate(b['วันที่จอง'])}</td>
-          <td data-label="ผู้จอง">
+          <td data-label="รหัส" class="my-col-id"><code style="font-size:11px;">${b.ID || '-'}</code></td>
+          <td data-label="วันที่จอง" class="my-col-booked-date">${formatDate(b['วันที่จอง'])}</td>
+          <td data-label="ผู้จอง" class="my-col-booker">
             <strong>${b['ชื่อผู้จอง'] || '-'}</strong><br>
             <small style="color:#64748b;">${b['ตำแหน่ง'] || '-'}</small>
           </td>
-          <td data-label="กลุ่มงาน">${b['กลุ่มงาน'] || '-'}</td>
-          <td data-label="รถ / คนขับ">
+          <td data-label="กลุ่มงาน" class="my-col-department">${b['กลุ่มงาน'] || '-'}</td>
+          <td data-label="คนขับ/รถ" class="my-col-driver-car">
             <strong>${b['ชื่อคนขับ'] || 'รอ Admin เลือกคนขับ'}</strong><br>
             <small style="color:#64748b;">${b['ประเภทรถ']} · ${b['ทะเบียนรถ'] || 'รอ Admin เลือกรถ'}</small>
           </td>
-          <td data-label="วันที่ใช้งาน">${formatDate(b['วันที่เริ่ม'])} ${b['เวลาออก']}<br><small style="color:#aaa;">ถึง ${formatDate(b['วันที่สิ้นสุด'])} ${b['เวลากลับ']}</small></td>
-          <td data-label="สถานที่">${b['สถานที่']}</td>
-          <td data-label="วัตถุประสงค์" style="max-width:150px;">${b['วัตถุประสงค์']}</td>
-          <td data-label="สถานะ">
+          <td data-label="วันที่ใช้งาน" class="my-col-use-date">${formatDate(b['วันที่เริ่ม'])} ${b['เวลาออก']}<br><small style="color:#aaa;">ถึง ${formatDate(b['วันที่สิ้นสุด'])} ${b['เวลากลับ']}</small></td>
+          <td data-label="วัตถุประสงค์ / สถานที่" class="my-col-purpose-place">
+            <strong style="color:#0d47a1;">${b['วัตถุประสงค์'] || '-'}</strong><br>
+            <small style="color:#64748b;">${b['สถานที่'] || '-'}</small>
+          </td>
+          <td data-label="สถานะ" class="my-col-status">
             ${statusBadge(b['สถานะ'])}
             ${editRequest ? `<br><small class="admin-edit-time-reason"><i class="bi bi-clock-history"></i>รอพิจารณาแก้วัน/เวลา</small>` : ''}
             ${bookingPermissionPdfButtonHtml(b)}
@@ -6704,7 +6960,7 @@ function renderMyBookings(list) {
           </td>
         </tr>`;
       }).join('')
-    : '<tr><td colspan="9" style="text-align:center; color:#aaa; padding:30px;">ไม่พบการจอง</td></tr>';
+    : '<tr><td colspan="8" style="text-align:center; color:#aaa; padding:30px;">ไม่พบการจอง</td></tr>';
 }
 
 function showBookingDetailModalById(bookingId) {
