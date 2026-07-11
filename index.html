@@ -971,12 +971,9 @@
     }
 
     #page-my-bookings .my-bookings-table thead th {
-      position: sticky;
-      top: var(--header-h);
-      z-index: 30;
+      position: static;
       background: #eef4ff;
       border-bottom: 2px solid #9eb7dc;
-      box-shadow: 0 2px 0 rgba(21, 101, 192, 0.12);
     }
 
     #page-my-bookings .my-bookings-table tbody td {
@@ -997,14 +994,31 @@
       background: #eef6ff;
     }
 
-    #page-my-bookings .my-col-id { width: 4%; }
-    #page-my-bookings .my-col-booked-date { width: 7.5%; }
+    #page-my-bookings .my-col-id {
+      width: 5.5%;
+      white-space: nowrap;
+    }
+
+    #page-my-bookings .my-col-id code {
+      white-space: nowrap;
+      word-break: keep-all;
+    }
+
+    #page-my-bookings .my-col-booked-date { width: 6%; }
     #page-my-bookings .my-col-booker { width: 12.5%; }
     #page-my-bookings .my-col-department { width: 9%; }
     #page-my-bookings .my-col-driver-car { width: 17%; }
     #page-my-bookings .my-col-use-date { width: 10%; }
     #page-my-bookings .my-col-purpose-place { width: 26%; }
     #page-my-bookings .my-col-status { width: 14%; }
+
+    #page-my-bookings .my-normal-subline {
+      color: #111827;
+      font-size: inherit;
+      font-weight: 400;
+      line-height: 1.45;
+      margin-top: 2px;
+    }
 
     .admin-bookings-table thead th {
       font-size: 13.5px;
@@ -3384,7 +3398,7 @@
     body.dark-mode #page-my-bookings .my-bookings-table thead th {
       background: #13233a !important;
       border-bottom-color: #3b5273 !important;
-      box-shadow: 0 2px 0 rgba(144, 202, 249, 0.14);
+      box-shadow: none;
     }
 
     body.dark-mode #page-my-bookings .my-bookings-table tbody td {
@@ -3398,6 +3412,10 @@
 
     body.dark-mode #page-my-bookings .my-bookings-table tbody tr:hover td {
       background: #162a46 !important;
+    }
+
+    body.dark-mode #page-my-bookings .my-normal-subline {
+      color: #e5edf8 !important;
     }
 
     body.dark-mode .admin-note-text,
@@ -6943,9 +6961,9 @@ function renderMyBookings(list) {
           <td data-label="กลุ่มงาน" class="my-col-department">${b['กลุ่มงาน'] || '-'}</td>
           <td data-label="คนขับ/รถ" class="my-col-driver-car">
             <strong>${b['ชื่อคนขับ'] || 'รอ Admin เลือกคนขับ'}</strong><br>
-            <small style="color:#64748b;">${b['ประเภทรถ']} · ${b['ทะเบียนรถ'] || 'รอ Admin เลือกรถ'}</small>
+            <div class="my-normal-subline">${b['ประเภทรถ']} · ${b['ทะเบียนรถ'] || 'รอ Admin เลือกรถ'}</div>
           </td>
-          <td data-label="วันที่ใช้งาน" class="my-col-use-date">${formatDate(b['วันที่เริ่ม'])} ${b['เวลาออก']}<br><small style="color:#aaa;">ถึง ${formatDate(b['วันที่สิ้นสุด'])} ${b['เวลากลับ']}</small></td>
+          <td data-label="วันที่ใช้งาน" class="my-col-use-date">${formatDate(b['วันที่เริ่ม'])} ${b['เวลาออก']}<div class="my-normal-subline">ถึง ${formatDate(b['วันที่สิ้นสุด'])} ${b['เวลากลับ']}</div></td>
           <td data-label="วัตถุประสงค์ / สถานที่" class="my-col-purpose-place">
             <strong style="color:#0d47a1;">${b['วัตถุประสงค์'] || '-'}</strong><br>
             <small style="color:#64748b;">${b['สถานที่'] || '-'}</small>
