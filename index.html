@@ -4145,11 +4145,11 @@
         <div class="row g-3 mb-3">
           <div class="col-md-6">
             <label class="form-label">สถานที่ปลายทาง <span style="color:red">*</span></label>
-            <input type="text" class="form-control" id="f-destination" placeholder="ตัวอย่าง เช่น สหกรณ์โคนมขอนแก่น" />
+            <input type="text" class="form-control" id="f-destination" maxlength="80" placeholder="ตัวอย่าง เช่น สหกรณ์โคนมขอนแก่น" />
           </div>
           <div class="col-md-6">
             <label class="form-label">วัตถุประสงค์ <span style="color:red">*</span></label>
-            <input type="text" class="form-control" id="f-purpose" placeholder="ตัวอย่าง เช่น ชื่อโครงการ.../อบรม.../ส่งหนังสือ..." />
+            <input type="text" class="form-control" id="f-purpose" maxlength="140" placeholder="ตัวอย่าง เช่น ชื่อโครงการ.../อบรม.../ส่งหนังสือ..." />
           </div>
         </div>
 
@@ -6824,6 +6824,16 @@ async function submitBooking() {
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.bookerEmail)) {
     Swal.fire({ icon: 'warning', title: 'อีเมลไม่ถูกต้อง', text: 'กรุณากรอกอีเมลให้ถูกต้อง เพื่อรับการแจ้งผลอนุมัติ', confirmButtonColor: '#1565c0' });
+    return;
+  }
+
+  if (formData.destination.length > 80) {
+    Swal.fire({ icon: 'warning', title: 'สถานที่ปลายทางยาวเกินไป', text: 'กรุณากรอกสถานที่ปลายทางไม่เกิน 80 ตัวอักษร', confirmButtonColor: '#1565c0' });
+    return;
+  }
+
+  if (formData.purpose.length > 140) {
+    Swal.fire({ icon: 'warning', title: 'วัตถุประสงค์ยาวเกินไป', text: 'กรุณากรอกวัตถุประสงค์ไม่เกิน 140 ตัวอักษร', confirmButtonColor: '#1565c0' });
     return;
   }
 
