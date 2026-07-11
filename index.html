@@ -4328,7 +4328,7 @@ const DARK_MODE_KEY = 'vehicleBookingDarkMode';
 
 // ใส่ URL จาก Apps Script Deploy > Web app > /exec เมื่อต้องการรัน index บน GitHub/Vercel
 // ตัวอย่าง: https://script.google.com/macros/s/AKfycbxxxxxxxxxxxxxxxx/exec
-const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyu2moCycv8WEJV1mkwiqO9Z_Rw4i7_RCR7JjTWu2MqUj3kp7AiqeUCCK1XeYuOqPk9GQ/exec';
+const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxv3TunVWu2OhlBPOZOkYaMtyX5mnKiMLA1Gn8bM4m0y_2VCK-dh9dtv-LoYI9DB1qyRw/exec';
 
 /* ==============================================================
    INIT
@@ -6690,13 +6690,20 @@ function showBookingDetailModalById(bookingId) {
 async function loadAdminBookings() {
   await Promise.all([loadVehicles(), loadDrivers(), loadBookings(null, true)]);
   populateAdminDriverFilter();
+  renderAdminBookings(filterAdminBookingsFromCache());
+}
+
+function getAdminBookingFilters() {
   const status = document.getElementById('filter-status').value;
   const search = document.getElementById('admin-search').value;
   const month = document.getElementById('filter-month').value;
   const driverId = document.getElementById('filter-driver').value;
   const permissionSent = document.getElementById('filter-permission-sent')?.value || '';
-  const bookings = await loadBookings({ status, search, month, driverId, permissionSent });
-  renderAdminBookings(bookings);
+  return { status, search, month, driverId, permissionSent };
+}
+
+function filterAdminBookingsFromCache() {
+  return filterBookingsLocally(APP.allBookings, getAdminBookingFilters());
 }
 
 function populateAdminDriverFilter() {
@@ -7669,7 +7676,7 @@ async function toggleVehicleRequestSentStatus(id, sent) {
     icon: nextSent ? 'question' : 'warning',
     title: nextSent ? 'บันทึกว่าส่งใบขอใช้รถแล้ว?' : 'เปลี่ยนกลับเป็นยังไม่ส่ง?',
     text: nextSent
-      ? 'รายการนี้จะเปลี่ยนเป็นแถบสีเขียวในหน้าอนุมัติการจอง'
+      ? 'รายการนี้จะเปลี่ยนเป็นแถบสีเขียว โดยสถานะการจองยังคงเป็นอนุมัติแล้ว'
       : 'รายการนี้จะกลับมาเป็นสีปกติ และปุ่มจะแสดงว่ายังไม่ส่งใบคำขอใช้รถ',
     showCancelButton: true,
     confirmButtonText: nextSent ? 'ยืนยันว่าส่งแล้ว' : 'ยืนยันว่ายังไม่ส่ง',
@@ -7686,6 +7693,7 @@ async function toggleVehicleRequestSentStatus(id, sent) {
     if (res && res.success) {
       const booking = APP.allBookings.find(b => String(b.ID) === String(id));
       if (booking) booking['ส่งใบขอใช้รถแล้ว'] = res.value || (res.sent ? 'ส่งแล้ว' : '');
+      renderAdminBookings(filterAdminBookingsFromCache());
       Swal.fire({
         icon: 'success',
         title: res.sent ? 'บันทึกว่าส่งแล้ว' : 'บันทึกว่ายังไม่ส่ง',
@@ -7694,7 +7702,6 @@ async function toggleVehicleRequestSentStatus(id, sent) {
         timer: 1400,
         showConfirmButton: false
       });
-      await loadAdminBookings();
       return;
     }
 
