@@ -1194,6 +1194,12 @@
       width: 8%;
     }
 
+    .admin-purpose-place-lines .admin-place-line {
+      display: block;
+      margin-top: 2px;
+      color: #64748b;
+    }
+
     .admin-note-text,
     .admin-reject-reason,
     .admin-cancel-reason,
@@ -7608,7 +7614,7 @@ function renderAdminBookings(list) {
           <td data-label="วัตถุประสงค์ / สถานที่" class="admin-purpose-col">
             <div class="admin-purpose-place-lines">
               <strong style="color:#0d47a1;">${b['วัตถุประสงค์'] || '-'}</strong>
-              <span class="admin-place-line">${b['สถานที่'] || '-'}</span>
+              <div class="admin-place-line">${b['สถานที่'] || '-'}</div>
             </div>
             ${cancelReason ? `<div class="admin-cancel-alert">
               <span class="admin-cancel-alert-title"><i class="bi bi-exclamation-triangle-fill"></i>มีคำขอยกเลิก</span>
