@@ -7419,7 +7419,7 @@ function buildAdminReportHtml() {
         h1 { color:#0d47a1; font-size:22px; margin:0 0 6px; text-align:center; }
         .subtitle { text-align:center; color:#475569; margin-bottom:14px; }
         .meta { font-size:12px; color:#475569; margin-bottom:12px; line-height:1.7; }
-        table { width:100%; border-collapse:collapse; font-size:11px; }
+        table { width:100%; border-collapse:collapse; table-layout:fixed; font-size:11px; }
         th { background:#e3f2fd; color:#0d47a1; border:1px solid #b8d7ff; padding:7px; text-align:left; }
         td { border:1px solid #d8e2f0; padding:7px; vertical-align:top; }
         tr:nth-child(even) td { background:#f8fbff; }
@@ -7441,6 +7441,15 @@ function buildAdminReportHtml() {
         เงื่อนไข: สถานะ=${escapeAttr(filters.statusLabel || adminStatusFilterLabel(filters.status))}, เดือน=${escapeAttr(filters.month || 'ทั้งหมด')}, คนขับ=${escapeAttr(filters.driverName || 'ทุกคนขับ')}, ใบขอใช้รถ=${escapeAttr(filters.permissionSentLabel || adminPermissionSentFilterLabel(filters.permissionSent))}, ค้นหา=${escapeAttr(filters.search || '-')}
       </div>
       <table>
+        <colgroup>
+          <col style="width:7%;">
+          <col style="width:19%;">
+          <col style="width:15%;">
+          <col style="width:14%;">
+          <col style="width:32%;">
+          <col style="width:8%;">
+          <col style="width:5%;">
+        </colgroup>
         <thead>
           <tr><th>รหัส</th><th>ผู้จอง</th><th>รถ</th><th>วันที่/เวลา</th><th>วัตถุประสงค์/สถานที่</th><th>คนขับ</th><th>สถานะ</th></tr>
         </thead>
