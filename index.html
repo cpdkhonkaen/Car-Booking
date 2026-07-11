@@ -2057,14 +2057,47 @@
       }
 
       #page-admin .mobile-card-table tbody td {
-        grid-template-columns: 88px minmax(0, 1fr);
-        gap: 7px;
+        grid-template-columns: 78px minmax(0, 1fr);
+        gap: 6px;
         padding: 7px 9px !important;
         margin: 0;
         border-bottom: 1px solid #dbeafe !important;
         font-size: 12.5px;
         line-height: 1.28;
         background: #fff !important;
+      }
+
+      #page-admin .mobile-card-table tbody td.admin-purpose-col {
+        grid-template-columns: 78px minmax(0, 1fr);
+      }
+
+      #page-admin .admin-use-date-lines,
+      #page-admin .admin-purpose-place-lines {
+        min-width: 0;
+        line-height: 1.28;
+      }
+
+      #page-admin .admin-use-date-lines {
+        white-space: nowrap;
+      }
+
+      #page-admin .admin-use-date-lines > div {
+        white-space: nowrap;
+      }
+
+      #page-admin .admin-purpose-place-lines strong,
+      #page-admin .admin-purpose-place-lines .admin-place-line {
+        display: block;
+        max-width: 100%;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+      }
+
+      #page-admin .admin-purpose-place-lines .admin-place-line {
+        margin-top: 2px;
+        color: #64748b;
+        font-size: 12px;
+        line-height: 1.25;
       }
 
       #page-admin .mobile-card-table tbody td::before {
@@ -3398,7 +3431,8 @@
     }
 
     body.dark-mode .admin-booker-col small,
-    body.dark-mode .admin-purpose-col small {
+    body.dark-mode .admin-purpose-col small,
+    body.dark-mode .admin-purpose-place-lines .admin-place-line {
       color: #cbd8ea !important;
     }
 
@@ -7566,12 +7600,16 @@ function renderAdminBookings(list) {
             <span class="admin-booker-phone"><i class="bi bi-telephone-fill"></i>${formatPhone(b['เบอร์โทร']) || '-'}</span>
           </td>
           <td data-label="วันที่ใช้งาน" class="admin-use-date-col">
-            ${formatDate(b['วันที่เริ่ม'])} ${escapeAttr(b['เวลาออก'] || '-')}<br>
-            ถึง ${formatDate(b['วันที่สิ้นสุด'] || b['วันที่เริ่ม'])} ${escapeAttr(b['เวลากลับ'] || '-')}
+            <div class="admin-use-date-lines">
+              <div>${formatDate(b['วันที่เริ่ม'])} ${escapeAttr(b['เวลาออก'] || '-')}</div>
+              <div>ถึง ${formatDate(b['วันที่สิ้นสุด'] || b['วันที่เริ่ม'])} ${escapeAttr(b['เวลากลับ'] || '-')}</div>
+            </div>
           </td>
           <td data-label="วัตถุประสงค์ / สถานที่" class="admin-purpose-col">
-            <strong style="color:#0d47a1;">${b['วัตถุประสงค์'] || '-'}</strong><br>
-            <small style="color:#64748b;">${b['สถานที่'] || '-'}</small>
+            <div class="admin-purpose-place-lines">
+              <strong style="color:#0d47a1;">${b['วัตถุประสงค์'] || '-'}</strong>
+              <span class="admin-place-line">${b['สถานที่'] || '-'}</span>
+            </div>
             ${cancelReason ? `<div class="admin-cancel-alert">
               <span class="admin-cancel-alert-title"><i class="bi bi-exclamation-triangle-fill"></i>มีคำขอยกเลิก</span>
               <span class="admin-cancel-alert-reason"><strong>เหตุผล:</strong> ${escapeAttr(cancelReason)}</span>
