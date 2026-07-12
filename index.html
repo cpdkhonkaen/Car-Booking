@@ -1049,6 +1049,10 @@
       margin-top: 2px;
     }
 
+    #page-my-bookings .my-cell-content {
+      min-width: 0;
+    }
+
     .admin-bookings-table thead th {
       font-size: 13.5px;
       letter-spacing: 0;
@@ -4303,9 +4307,9 @@
               <th class="my-col-booked-date">วันที่จอง</th>
               <th class="my-col-booker">ชื่อผู้จอง</th>
               <th class="my-col-department">กลุ่มงาน</th>
-              <th class="my-col-driver-car">คนขับ/รถ</th>
-              <th class="my-col-use-date">วันที่ใช้งาน</th>
               <th class="my-col-purpose-place">วัตถุประสงค์/สถานที่</th>
+              <th class="my-col-use-date">วันที่ใช้งาน</th>
+              <th class="my-col-driver-car">คนขับ/รถ</th>
               <th class="my-col-permission">การส่งใบขอใช้รถ</th>
               <th class="my-col-status">สถานะ</th>
             </tr>
@@ -7251,14 +7255,21 @@ function renderMyBookings(list) {
             <small style="color:#64748b;">${b['ตำแหน่ง'] || '-'}</small>
           </td>
           <td data-label="กลุ่มงาน" class="my-col-department">${b['กลุ่มงาน'] || '-'}</td>
+          <td data-label="วัตถุประสงค์ / สถานที่" class="my-col-purpose-place">
+            <div class="my-cell-content">
+              <strong style="color:#0d47a1;">${b['วัตถุประสงค์'] || '-'}</strong>
+              <div class="my-normal-subline" style="color:#64748b;">${b['สถานที่'] || '-'}</div>
+            </div>
+          </td>
+          <td data-label="วันที่ใช้งาน" class="my-col-use-date">
+            <div class="my-cell-content">
+              <div>${formatDate(b['วันที่เริ่ม'])} ${b['เวลาออก']}</div>
+              <div class="my-normal-subline">ถึง ${formatDate(b['วันที่สิ้นสุด'])} ${b['เวลากลับ']}</div>
+            </div>
+          </td>
           <td data-label="คนขับ/รถ" class="my-col-driver-car">
             <strong>${b['ชื่อคนขับ'] || 'รอ Admin เลือกคนขับ'}</strong><br>
             <div class="my-normal-subline">${b['ประเภทรถ']} · ${b['ทะเบียนรถ'] || 'รอ Admin เลือกรถ'}</div>
-          </td>
-          <td data-label="วันที่ใช้งาน" class="my-col-use-date">${formatDate(b['วันที่เริ่ม'])} ${b['เวลาออก']}<div class="my-normal-subline">ถึง ${formatDate(b['วันที่สิ้นสุด'])} ${b['เวลากลับ']}</div></td>
-          <td data-label="วัตถุประสงค์ / สถานที่" class="my-col-purpose-place">
-            <strong style="color:#0d47a1;">${b['วัตถุประสงค์'] || '-'}</strong><br>
-            <small style="color:#64748b;">${b['สถานที่'] || '-'}</small>
           </td>
           <td data-label="การส่งใบขอใช้รถ" class="my-col-permission">
             ${bookingVehicleRequestStatusHtml(b)}
