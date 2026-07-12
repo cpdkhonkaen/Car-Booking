@@ -968,7 +968,7 @@
 
     #page-my-bookings .my-bookings-table {
       table-layout: fixed;
-      min-width: 1180px;
+      min-width: 1320px;
       border-collapse: separate;
       border-spacing: 0;
     }
@@ -1008,12 +1008,38 @@
     }
 
     #page-my-bookings .my-col-booked-date { width: 6%; }
-    #page-my-bookings .my-col-booker { width: 12.5%; }
-    #page-my-bookings .my-col-department { width: 9%; }
-    #page-my-bookings .my-col-driver-car { width: 17%; }
+    #page-my-bookings .my-col-booker { width: 11.5%; }
+    #page-my-bookings .my-col-department { width: 8.5%; }
+    #page-my-bookings .my-col-driver-car { width: 15%; }
     #page-my-bookings .my-col-use-date { width: 10%; }
-    #page-my-bookings .my-col-purpose-place { width: 26%; }
-    #page-my-bookings .my-col-status { width: 14%; }
+    #page-my-bookings .my-col-purpose-place { width: 19%; }
+    #page-my-bookings .my-col-permission { width: 13.5%; }
+    #page-my-bookings .my-col-status { width: 11%; }
+
+    .vehicle-request-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      max-width: 100%;
+      padding: 5px 8px;
+      border-radius: 7px;
+      font-size: 11px;
+      font-weight: 800;
+      line-height: 1.35;
+      white-space: normal;
+    }
+
+    .vehicle-request-status.sent {
+      color: #1b5e20;
+      background: #e8f5e9;
+      border: 1px solid #a5d6a7;
+    }
+
+    .vehicle-request-status.unsent {
+      color: #9a4d00;
+      background: #fff3e0;
+      border: 1px solid #ffcc80;
+    }
 
     #page-my-bookings .my-normal-subline {
       color: #111827;
@@ -1972,6 +1998,7 @@
       #page-my-bookings .my-bookings-table .my-col-driver-car,
       #page-my-bookings .my-bookings-table .my-col-use-date,
       #page-my-bookings .my-bookings-table .my-col-purpose-place,
+      #page-my-bookings .my-bookings-table .my-col-permission,
       #page-my-bookings .my-bookings-table .my-col-status {
         width: 100% !important;
       }
@@ -4237,6 +4264,11 @@
             <option value="ไม่อนุมัติ">ไม่อนุมัติ</option>
             <option value="ยกเลิกการจอง">ยกเลิกการจอง</option>
           </select>
+          <select class="form-select form-select-sm" id="my-filter-permission-sent" onchange="filterMyBookings()" style="width:205px;font-size:13px;border-radius:8px;">
+            <option value="">การส่งใบขอใช้รถทั้งหมด</option>
+            <option value="unsent">ยังไม่ส่งใบคำขอใช้รถ</option>
+            <option value="sent">ส่งใบขอใช้รถแล้ว</option>
+          </select>
           <select class="form-select form-select-sm" id="my-filter-department" onchange="filterMyBookings()" style="width:220px;font-size:13px;border-radius:8px;">
             <option value="">ทุกกลุ่มงาน</option>
             <option value="ฝ่ายบริหารทั่วไป">ฝ่ายบริหารทั่วไป</option>
@@ -4274,11 +4306,12 @@
               <th class="my-col-driver-car">คนขับ/รถ</th>
               <th class="my-col-use-date">วันที่ใช้งาน</th>
               <th class="my-col-purpose-place">วัตถุประสงค์/สถานที่</th>
+              <th class="my-col-permission">การส่งใบขอใช้รถ</th>
               <th class="my-col-status">สถานะ</th>
             </tr>
           </thead>
           <tbody id="my-bookings-body">
-            <tr><td colspan="8" style="text-align:center; color:#aaa; padding:30px;">กำลังโหลด...</td></tr>
+            <tr><td colspan="9" style="text-align:center; color:#aaa; padding:30px;">กำลังโหลด...</td></tr>
           </tbody>
         </table>
       </div>
@@ -5123,7 +5156,7 @@ function showDataLoadError(err) {
   if (isAuthSessionError(err)) return;
   const tableHtml = dataLoadErrorHtml(err);
   const myBody = document.getElementById('my-bookings-body');
-  if (myBody) myBody.innerHTML = `<tr><td colspan="8">${tableHtml}</td></tr>`;
+  if (myBody) myBody.innerHTML = `<tr><td colspan="9">${tableHtml}</td></tr>`;
   const adminBody = document.getElementById('admin-bookings-body');
   if (adminBody) adminBody.innerHTML = `<tr><td colspan="8">${tableHtml}</td></tr>`;
   const driverSchedule = document.getElementById('driver-schedule-table');
@@ -6298,6 +6331,7 @@ function bookingDetailHtml(b) {
       ${editRequest ? line('bi-chat-left-text-fill', 'เหตุผลขอแก้ไข', `<span style="color:#0d47a1;font-weight:800;">${escapeAttr(editRequest.reason)}</span>`) : ''}
       ${line('bi-geo-alt-fill', 'สถานที่', escapeAttr(b['สถานที่'] || '-'))}
       ${line('bi-bullseye', 'วัตถุประสงค์', escapeAttr(b['วัตถุประสงค์'] || '-'))}
+      ${line('bi-send-check-fill', 'การส่งใบขอใช้รถ', bookingVehicleRequestStatusHtml(b))}
       ${b['หมายเหตุ'] ? line('bi-chat-left-text-fill', 'หมายเหตุ', escapeAttr(b['หมายเหตุ'])) : ''}
       ${b['เหตุผลขอยกเลิก'] ? line('bi-x-octagon-fill', 'เหตุผลขอยกเลิก', `<span style="color:#c62828;font-weight:800;">${escapeAttr(b['เหตุผลขอยกเลิก'])}</span>`) : ''}
       ${line('bi-people-fill', 'ผู้โดยสาร', `${escapeAttr(b['จำนวนผู้โดยสาร'] || '-')} คน`)}
@@ -7107,6 +7141,7 @@ function resetMyBookingFilters() {
   else if (day) day.value = '';
 
   document.getElementById('my-filter-status').value = '';
+  document.getElementById('my-filter-permission-sent').value = '';
   document.getElementById('my-filter-department').value = '';
   document.getElementById('my-search').value = '';
   setMyBookingCurrentMonthFilter();
@@ -7118,6 +7153,7 @@ function filterMyBookings() {
   const day = document.getElementById('my-filter-day')?.value || '';
   const month = document.getElementById('my-filter-month')?.value || '';
   const status = document.getElementById('my-filter-status')?.value || '';
+  const permissionSent = document.getElementById('my-filter-permission-sent')?.value || '';
   const department = document.getElementById('my-filter-department')?.value || '';
 
   renderMyBookings(APP.allBookings.filter(b => {
@@ -7137,7 +7173,11 @@ function filterMyBookings() {
           (b['สถานะ'] !== 'ยกเลิกการจอง' && b['สถานะ'] !== 'ไม่อนุมัติ' && adminEditTimeReasonText(b))
         : !status || b['สถานะ'] === status;
     const departmentOk = !department || b['กลุ่มงาน'] === department;
-    return searchOk && dayOk && monthOk && statusOk && departmentOk;
+    const isPermissionSent = bookingVehicleRequestIsSent(b);
+    const permissionSentOk = !permissionSent ||
+      (permissionSent === 'sent' && isPermissionSent) ||
+      (permissionSent === 'unsent' && !isPermissionSent);
+    return searchOk && dayOk && monthOk && statusOk && departmentOk && permissionSentOk;
   }));
 }
 
@@ -7178,6 +7218,14 @@ function bookingVehicleRequestSentValue(b) {
   return '';
 }
 
+function bookingVehicleRequestStatusHtml(b) {
+  const sent = bookingVehicleRequestIsSent(b);
+  return `<span class="vehicle-request-status ${sent ? 'sent' : 'unsent'}">
+    <i class="bi ${sent ? 'bi-check-circle-fill' : 'bi-envelope-exclamation-fill'}"></i>
+    ${sent ? 'ส่งใบขอใช้รถแล้ว' : 'ยังไม่ส่งใบคำขอใช้รถ'}
+  </span>`;
+}
+
 function bookingPermissionPdfButtonHtml(b, prefixBreak = true) {
   const prefix = prefixBreak ? '<br>' : '';
   if (bookingCanHavePermissionPdf(b)) {
@@ -7212,6 +7260,9 @@ function renderMyBookings(list) {
             <strong style="color:#0d47a1;">${b['วัตถุประสงค์'] || '-'}</strong><br>
             <small style="color:#64748b;">${b['สถานที่'] || '-'}</small>
           </td>
+          <td data-label="การส่งใบขอใช้รถ" class="my-col-permission">
+            ${bookingVehicleRequestStatusHtml(b)}
+          </td>
           <td data-label="สถานะ" class="my-col-status">
             ${statusBadge(b['สถานะ'])}
             ${editRequest ? `<br><small class="admin-edit-time-reason"><i class="bi bi-clock-history"></i>รอพิจารณาแก้วัน/เวลา</small>` : ''}
@@ -7222,7 +7273,7 @@ function renderMyBookings(list) {
           </td>
         </tr>`;
       }).join('')
-    : '<tr><td colspan="8" style="text-align:center; color:#aaa; padding:30px;">ไม่พบการจอง</td></tr>';
+    : '<tr><td colspan="9" style="text-align:center; color:#aaa; padding:30px;">ไม่พบการจอง</td></tr>';
 }
 
 function showBookingDetailModalById(bookingId) {
