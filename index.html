@@ -963,63 +963,6 @@
 
     .custom-table tbody tr:hover { background: #f8faff; }
 
-    #page-my-bookings .my-bookings-table {
-      table-layout: fixed;
-      min-width: 1180px;
-      border-collapse: separate;
-      border-spacing: 0;
-    }
-
-    #page-my-bookings .my-bookings-table thead th {
-      position: static;
-      background: #eef4ff;
-      border-bottom: 2px solid #9eb7dc;
-    }
-
-    #page-my-bookings .my-bookings-table tbody td {
-      border-bottom: 2px solid #d5e0f0;
-      border-right: 1px solid #e1e8f4;
-      line-height: 1.45;
-    }
-
-    #page-my-bookings .my-bookings-table tbody td:last-child {
-      border-right: none;
-    }
-
-    #page-my-bookings .my-bookings-table tbody tr:nth-child(even) {
-      background: #fbfdff;
-    }
-
-    #page-my-bookings .my-bookings-table tbody tr:hover {
-      background: #eef6ff;
-    }
-
-    #page-my-bookings .my-col-id {
-      width: 5.5%;
-      white-space: nowrap;
-    }
-
-    #page-my-bookings .my-col-id code {
-      white-space: nowrap;
-      word-break: keep-all;
-    }
-
-    #page-my-bookings .my-col-booked-date { width: 6%; }
-    #page-my-bookings .my-col-booker { width: 12.5%; }
-    #page-my-bookings .my-col-department { width: 9%; }
-    #page-my-bookings .my-col-driver-car { width: 17%; }
-    #page-my-bookings .my-col-use-date { width: 10%; }
-    #page-my-bookings .my-col-purpose-place { width: 26%; }
-    #page-my-bookings .my-col-status { width: 14%; }
-
-    #page-my-bookings .my-normal-subline {
-      color: #111827;
-      font-size: inherit;
-      font-weight: 400;
-      line-height: 1.45;
-      margin-top: 2px;
-    }
-
     .admin-bookings-table thead th {
       font-size: 13.5px;
       letter-spacing: 0;
@@ -1168,12 +1111,6 @@
       width: 14%;
     }
 
-    .admin-use-date-col {
-      min-width: 150px;
-      width: 10.5%;
-      white-space: nowrap;
-    }
-
     .admin-booker-phone {
       display: inline-flex;
       align-items: center;
@@ -1185,29 +1122,8 @@
     }
 
     .admin-purpose-col {
-      min-width: 340px;
-      width: 25.5%;
-    }
-
-    .admin-passenger-col {
-      min-width: 120px;
-      width: 8%;
-    }
-
-    .admin-driver-col {
-      min-width: 210px;
-      width: 15%;
-    }
-
-    .admin-status-col {
-      min-width: 190px;
-      width: 13%;
-    }
-
-    .admin-purpose-place-lines .admin-place-line {
-      display: block;
-      margin-top: 2px;
-      color: #64748b;
+      min-width: 420px;
+      width: 30%;
     }
 
     .admin-note-text,
@@ -1953,34 +1869,6 @@
         display: none;
       }
 
-      #page-my-bookings .my-bookings-table {
-        min-width: 0;
-        table-layout: auto;
-      }
-
-      #page-my-bookings .my-bookings-table thead th {
-        position: static;
-      }
-
-      #page-my-bookings .my-bookings-table .my-col-id,
-      #page-my-bookings .my-bookings-table .my-col-booked-date,
-      #page-my-bookings .my-bookings-table .my-col-booker,
-      #page-my-bookings .my-bookings-table .my-col-department,
-      #page-my-bookings .my-bookings-table .my-col-driver-car,
-      #page-my-bookings .my-bookings-table .my-col-use-date,
-      #page-my-bookings .my-bookings-table .my-col-purpose-place,
-      #page-my-bookings .my-bookings-table .my-col-status {
-        width: 100% !important;
-      }
-
-      #page-my-bookings .mobile-card-table tbody tr {
-        border-color: #c7d7ec;
-      }
-
-      #page-my-bookings .mobile-card-table tbody td {
-        border-bottom-color: #d5e0f0 !important;
-      }
-
       .admin-bookings-table .admin-status-select,
       .admin-bookings-table .form-select-sm {
         width: 100% !important;
@@ -2052,149 +1940,6 @@
         white-space: nowrap;
       }
 
-      #page-admin .mobile-table-wrap {
-        padding: 6px !important;
-      }
-
-      #page-admin .mobile-card-table tbody {
-        gap: 8px;
-      }
-
-      #page-admin .mobile-card-table tbody tr {
-        border: 1.5px solid #bfdbfe;
-        border-left: 5px solid #3b82f6;
-        border-radius: 9px;
-        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
-      }
-
-      #page-admin .mobile-card-table tbody tr.admin-request-sent-row {
-        border-color: #86efac;
-        border-left-color: #16a34a;
-      }
-
-      #page-admin .mobile-card-table tbody td {
-        grid-template-columns: 78px minmax(0, 1fr);
-        gap: 6px;
-        padding: 7px 9px !important;
-        margin: 0;
-        border-bottom: 1px solid #dbeafe !important;
-        font-size: 12.5px;
-        line-height: 1.28;
-        background: #fff !important;
-      }
-
-      #page-admin .mobile-card-table tbody td.admin-purpose-col {
-        grid-template-columns: 78px minmax(0, 1fr);
-      }
-
-      #page-admin .admin-use-date-lines,
-      #page-admin .admin-purpose-place-lines {
-        min-width: 0;
-        line-height: 1.28;
-      }
-
-      #page-admin .admin-use-date-lines {
-        white-space: nowrap;
-      }
-
-      #page-admin .admin-use-date-lines > div {
-        white-space: nowrap;
-      }
-
-      #page-admin .admin-purpose-place-lines strong,
-      #page-admin .admin-purpose-place-lines .admin-place-line {
-        display: block;
-        max-width: 100%;
-        overflow-wrap: anywhere;
-        word-break: break-word;
-      }
-
-      #page-admin .admin-purpose-place-lines .admin-place-line {
-        margin-top: 2px;
-        color: #64748b;
-        font-size: 12px;
-        line-height: 1.25;
-      }
-
-      #page-admin .mobile-card-table tbody td::before {
-        color: #475569;
-        font-size: 11.5px;
-        line-height: 1.2;
-      }
-
-      #page-admin .mobile-card-table tbody td[data-label="รหัส"] {
-        background: #fdf2f8 !important;
-        border-left: 3px solid #ec4899;
-      }
-
-      #page-admin .mobile-card-table tbody td[data-label="วันที่จอง"],
-      #page-admin .mobile-card-table tbody td[data-label="วันที่ใช้งาน"] {
-        background: #eff6ff !important;
-        border-left: 3px solid #3b82f6;
-      }
-
-      #page-admin .mobile-card-table tbody td[data-label="ผู้จอง"] {
-        background: #f8fafc !important;
-        border-left: 3px solid #64748b;
-      }
-
-      #page-admin .mobile-card-table tbody td.admin-purpose-col {
-        padding: 8px 9px !important;
-        background: #f0f9ff !important;
-        border-left: 3px solid #0ea5e9;
-      }
-
-      #page-admin .mobile-card-table tbody td[data-label="ผู้โดยสาร / ประเภทรถ"] {
-        background: #fff7ed !important;
-        border-left: 3px solid #f97316;
-      }
-
-      #page-admin .mobile-card-table tbody td.admin-driver-vehicle-cell {
-        background: #f5f3ff !important;
-        border-left: 3px solid #8b5cf6;
-      }
-
-      #page-admin .mobile-card-table tbody td[data-label="สถานะ"] {
-        background: #f0fdf4 !important;
-        border-left: 3px solid #22c55e;
-        padding-bottom: 9px !important;
-      }
-
-      #page-admin .mobile-card-table tbody tr.admin-request-sent-row td {
-        background: #dcfce7 !important;
-      }
-
-      #page-admin .admin-booker-phone {
-        margin-top: 2px;
-        font-size: 12.5px;
-      }
-
-      #page-admin .admin-purpose-col strong {
-        font-size: 13px;
-        line-height: 1.3;
-      }
-
-      #page-admin .admin-purpose-col small {
-        margin-top: 3px;
-        font-size: 12px;
-        line-height: 1.25;
-      }
-
-      #page-admin .admin-status-select {
-        min-height: 34px;
-        font-size: 12.5px !important;
-      }
-
-      #page-admin .admin-permission-actions {
-        gap: 5px;
-      }
-
-      #page-admin .admin-permission-action-btn {
-        min-height: 30px;
-        padding: 5px 7px;
-        font-size: 11.5px;
-      }
-
       .cancel-booking-swal {
         width: min(360px, calc(100vw - 24px)) !important;
         padding: 0 0 16px !important;
@@ -2238,45 +1983,6 @@
         padding: 8px 10px;
         font-size: 15px;
         white-space: nowrap;
-      }
-
-      .booking-limit-swal {
-        width: min(310px, calc(100vw - 36px)) !important;
-        padding: 0 0 14px !important;
-        border-radius: 10px !important;
-      }
-
-      .booking-limit-swal .swal2-icon {
-        width: 48px;
-        height: 48px;
-        margin: 16px auto 8px;
-      }
-
-      .booking-limit-swal .swal2-icon .swal2-icon-content {
-        font-size: 34px;
-      }
-
-      .booking-limit-swal .swal2-title {
-        padding: 0 16px;
-        font-size: 21px;
-        line-height: 1.25;
-      }
-
-      .booking-limit-swal .swal2-html-container {
-        margin: 8px 16px 0;
-        font-size: 14px;
-        line-height: 1.45;
-      }
-
-      .booking-limit-swal .swal2-actions {
-        margin: 14px 16px 0;
-      }
-
-      .booking-limit-swal .swal2-confirm {
-        min-width: 76px;
-        min-height: 38px;
-        padding: 7px 16px;
-        font-size: 15px;
       }
 
       #page-calendar .card-body-custom {
@@ -3486,36 +3192,12 @@
     }
 
     body.dark-mode .admin-booker-col small,
-    body.dark-mode .admin-purpose-col small,
-    body.dark-mode .admin-purpose-place-lines .admin-place-line {
+    body.dark-mode .admin-purpose-col small {
       color: #cbd8ea !important;
     }
 
     body.dark-mode .admin-purpose-col strong {
       color: #90caf9 !important;
-    }
-
-    body.dark-mode #page-my-bookings .my-bookings-table thead th {
-      background: #13233a !important;
-      border-bottom-color: #3b5273 !important;
-      box-shadow: none;
-    }
-
-    body.dark-mode #page-my-bookings .my-bookings-table tbody td {
-      border-bottom-color: #2b4262 !important;
-      border-right-color: #1f314a !important;
-    }
-
-    body.dark-mode #page-my-bookings .my-bookings-table tbody tr:nth-child(even) td {
-      background: #0f1a2b !important;
-    }
-
-    body.dark-mode #page-my-bookings .my-bookings-table tbody tr:hover td {
-      background: #162a46 !important;
-    }
-
-    body.dark-mode #page-my-bookings .my-normal-subline {
-      color: #e5edf8 !important;
     }
 
     body.dark-mode .admin-note-text,
@@ -3615,61 +3297,6 @@
 
       body.dark-mode .admin-bookings-table tbody tr.admin-cancel-request-row {
         border-color: #f97316;
-      }
-
-      body.dark-mode #page-admin .mobile-card-table tbody tr {
-        border-color: #2b4262;
-        border-left-color: #60a5fa;
-      }
-
-      body.dark-mode #page-admin .mobile-card-table tbody tr.admin-request-sent-row {
-        border-color: #2e7d32;
-        border-left-color: #22c55e;
-      }
-
-      body.dark-mode #page-admin .mobile-card-table tbody td {
-        background: #111c2e !important;
-        border-bottom-color: #24364f !important;
-      }
-
-      body.dark-mode #page-admin .mobile-card-table tbody td[data-label="รหัส"] {
-        background: #2a1730 !important;
-        border-left-color: #f472b6;
-      }
-
-      body.dark-mode #page-admin .mobile-card-table tbody td[data-label="วันที่จอง"],
-      body.dark-mode #page-admin .mobile-card-table tbody td[data-label="วันที่ใช้งาน"] {
-        background: #10233f !important;
-        border-left-color: #60a5fa;
-      }
-
-      body.dark-mode #page-admin .mobile-card-table tbody td[data-label="ผู้จอง"] {
-        background: #111827 !important;
-        border-left-color: #94a3b8;
-      }
-
-      body.dark-mode #page-admin .mobile-card-table tbody td.admin-purpose-col {
-        background: #0c2637 !important;
-        border-left-color: #38bdf8;
-      }
-
-      body.dark-mode #page-admin .mobile-card-table tbody td[data-label="ผู้โดยสาร / ประเภทรถ"] {
-        background: #2a1a0b !important;
-        border-left-color: #fb923c;
-      }
-
-      body.dark-mode #page-admin .mobile-card-table tbody td.admin-driver-vehicle-cell {
-        background: #1f1a3a !important;
-        border-left-color: #a78bfa;
-      }
-
-      body.dark-mode #page-admin .mobile-card-table tbody td[data-label="สถานะ"] {
-        background: #0d2a1b !important;
-        border-left-color: #22c55e;
-      }
-
-      body.dark-mode #page-admin .mobile-card-table tbody tr.admin-request-sent-row td {
-        background: #123321 !important;
       }
     }
 
@@ -4184,11 +3811,11 @@
         <div class="row g-3 mb-3">
           <div class="col-md-6">
             <label class="form-label">สถานที่ปลายทาง <span style="color:red">*</span></label>
-            <input type="text" class="form-control" id="f-destination" maxlength="71" onbeforeinput="limitBookingTextBeforeInput(event, this, 71, 'สถานที่ปลายทาง')" onpaste="limitBookingTextPaste(event, this, 71, 'สถานที่ปลายทาง')" placeholder="ตัวอย่าง เช่น สหกรณ์โคนมขอนแก่น" />
+            <input type="text" class="form-control" id="f-destination" placeholder="ตัวอย่าง เช่น สหกรณ์โคนมขอนแก่น" />
           </div>
           <div class="col-md-6">
             <label class="form-label">วัตถุประสงค์ <span style="color:red">*</span></label>
-            <input type="text" class="form-control" id="f-purpose" maxlength="140" onbeforeinput="limitBookingTextBeforeInput(event, this, 140, 'วัตถุประสงค์')" onpaste="limitBookingTextPaste(event, this, 140, 'วัตถุประสงค์')" placeholder="ตัวอย่าง เช่น ชื่อโครงการ.../อบรม.../ส่งหนังสือ..." />
+            <input type="text" class="form-control" id="f-purpose" placeholder="ตัวอย่าง เช่น ชื่อโครงการ.../อบรม.../ส่งหนังสือ..." />
           </div>
         </div>
 
@@ -4264,18 +3891,19 @@
         <table class="custom-table mobile-card-table my-bookings-table">
           <thead>
             <tr>
-              <th class="my-col-id">รหัส</th>
-              <th class="my-col-booked-date">วันที่จอง</th>
-              <th class="my-col-booker">ชื่อผู้จอง</th>
-              <th class="my-col-department">กลุ่มงาน</th>
-              <th class="my-col-driver-car">คนขับ/รถ</th>
-              <th class="my-col-use-date">วันที่ใช้งาน</th>
-              <th class="my-col-purpose-place">วัตถุประสงค์/สถานที่</th>
-              <th class="my-col-status">สถานะ</th>
+              <th>รหัส</th>
+              <th>วันที่จอง</th>
+              <th>ชื่อผู้จอง</th>
+              <th>กลุ่มงาน</th>
+              <th>รถ</th>
+              <th>วันที่ใช้งาน</th>
+              <th>สถานที่</th>
+              <th>วัตถุประสงค์</th>
+              <th>สถานะ</th>
             </tr>
           </thead>
           <tbody id="my-bookings-body">
-            <tr><td colspan="8" style="text-align:center; color:#aaa; padding:30px;">กำลังโหลด...</td></tr>
+            <tr><td colspan="9" style="text-align:center; color:#aaa; padding:30px;">กำลังโหลด...</td></tr>
           </tbody>
         </table>
       </div>
@@ -4329,11 +3957,11 @@
               <th>รหัส</th>
               <th>วันที่จอง</th>
               <th class="admin-booker-col">ผู้จอง</th>
-              <th class="admin-use-date-col">วันที่ใช้งาน</th>
+              <th>วันที่ใช้งาน</th>
               <th class="admin-purpose-col">วัตถุประสงค์/สถานที่</th>
-              <th class="admin-passenger-col">ผู้โดยสาร/ประเภทรถ</th>
-              <th class="admin-driver-col">คนขับรถ/ทะเบียนรถ</th>
-              <th class="admin-status-col">สถานะ</th>
+              <th>ผู้โดยสาร/ประเภทรถ</th>
+              <th>คนขับรถ/ทะเบียนรถ</th>
+              <th>สถานะ</th>
             </tr>
           </thead>
           <tbody id="admin-bookings-body">
@@ -4700,7 +4328,7 @@ const DARK_MODE_KEY = 'vehicleBookingDarkMode';
 
 // ใส่ URL จาก Apps Script Deploy > Web app > /exec เมื่อต้องการรัน index บน GitHub/Vercel
 // ตัวอย่าง: https://script.google.com/macros/s/AKfycbxxxxxxxxxxxxxxxx/exec
-const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyNqnXTnDV-W-sWx52zti2ntTC3aCWPdZJTw6GjOzlvEs8-jIACVYX0f8dqfaxZuRscLg/exec';
+const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycby8FLq09zFm7fSIyVVMj16A-nF7Smtq0C3l0mIqtlRdD2QGC-XFRkU8AXwooJXGw8ThWw/exec';
 
 /* ==============================================================
    INIT
@@ -5111,7 +4739,7 @@ function dataLoadErrorHtml(err) {
 function showDataLoadError(err) {
   const tableHtml = dataLoadErrorHtml(err);
   const myBody = document.getElementById('my-bookings-body');
-  if (myBody) myBody.innerHTML = `<tr><td colspan="8">${tableHtml}</td></tr>`;
+  if (myBody) myBody.innerHTML = `<tr><td colspan="9">${tableHtml}</td></tr>`;
   const adminBody = document.getElementById('admin-bookings-body');
   if (adminBody) adminBody.innerHTML = `<tr><td colspan="8">${tableHtml}</td></tr>`;
   const driverSchedule = document.getElementById('driver-schedule-table');
@@ -6830,48 +6458,6 @@ async function checkAvailability() {
   // ตรวจรถว่างในขั้นตอนอนุมัติ เพราะ Admin เป็นผู้เลือกทะเบียนรถ
 }
 
-function showBookingTextLimitWarning(input, label, max) {
-  const now = Date.now();
-  const lastWarnedAt = Number(input?.dataset?.limitWarnedAt || 0);
-  if (now - lastWarnedAt < 1200) return;
-  if (input?.dataset) input.dataset.limitWarnedAt = String(now);
-  Swal.fire({
-    icon: 'warning',
-    title: `${label}ยาวเกินไป`,
-    text: `กรุณากรอก${label}ไม่เกิน ${max} ตัวอักษร`,
-    customClass: { popup: 'booking-limit-swal' },
-    confirmButtonColor: '#1565c0'
-  });
-}
-
-function insertTextWithinLimit(input, text, max, label) {
-  if (!input || !text) return false;
-  const start = input.selectionStart ?? input.value.length;
-  const end = input.selectionEnd ?? input.value.length;
-  const selectedLength = Math.max(0, end - start);
-  const available = max - (input.value.length - selectedLength);
-  if (text.length <= available) return false;
-  if (available > 0) {
-    input.setRangeText(text.slice(0, available), start, end, 'end');
-    input.dispatchEvent(new Event('input', { bubbles: true }));
-  }
-  showBookingTextLimitWarning(input, label, max);
-  return true;
-}
-
-function limitBookingTextBeforeInput(event, input, max, label) {
-  if (!event || event.isComposing) return;
-  const inputType = event.inputType || '';
-  if (inputType.startsWith('delete') || inputType.startsWith('history')) return;
-  const text = event.data || event.dataTransfer?.getData('text/plain') || '';
-  if (insertTextWithinLimit(input, text, max, label)) event.preventDefault();
-}
-
-function limitBookingTextPaste(event, input, max, label) {
-  const text = event?.clipboardData?.getData('text') || '';
-  if (insertTextWithinLimit(input, text, max, label)) event.preventDefault();
-}
-
 /* ==============================================================
    SUBMIT BOOKING
 ============================================================== */
@@ -6905,16 +6491,6 @@ async function submitBooking() {
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.bookerEmail)) {
     Swal.fire({ icon: 'warning', title: 'อีเมลไม่ถูกต้อง', text: 'กรุณากรอกอีเมลให้ถูกต้อง เพื่อรับการแจ้งผลอนุมัติ', confirmButtonColor: '#1565c0' });
-    return;
-  }
-
-  if (formData.destination.length > 71) {
-    Swal.fire({ icon: 'warning', title: 'สถานที่ปลายทางยาวเกินไป', text: 'กรุณากรอกสถานที่ปลายทางไม่เกิน 71 ตัวอักษร', customClass: { popup: 'booking-limit-swal' }, confirmButtonColor: '#1565c0' });
-    return;
-  }
-
-  if (formData.purpose.length > 140) {
-    Swal.fire({ icon: 'warning', title: 'วัตถุประสงค์ยาวเกินไป', text: 'กรุณากรอกวัตถุประสงค์ไม่เกิน 140 ตัวอักษร', customClass: { popup: 'booking-limit-swal' }, confirmButtonColor: '#1565c0' });
     return;
   }
 
@@ -7104,23 +6680,21 @@ function renderMyBookings(list) {
         const editRequest = getEditTimeRequest(b);
         return `
         <tr>
-          <td data-label="รหัส" class="my-col-id"><code style="font-size:11px;">${b.ID || '-'}</code></td>
-          <td data-label="วันที่จอง" class="my-col-booked-date">${formatDate(b['วันที่จอง'])}</td>
-          <td data-label="ผู้จอง" class="my-col-booker">
+          <td data-label="รหัส"><code style="font-size:11px;">${b.ID || '-'}</code></td>
+          <td data-label="วันที่จอง">${formatDate(b['วันที่จอง'])}</td>
+          <td data-label="ผู้จอง">
             <strong>${b['ชื่อผู้จอง'] || '-'}</strong><br>
             <small style="color:#64748b;">${b['ตำแหน่ง'] || '-'}</small>
           </td>
-          <td data-label="กลุ่มงาน" class="my-col-department">${b['กลุ่มงาน'] || '-'}</td>
-          <td data-label="คนขับ/รถ" class="my-col-driver-car">
+          <td data-label="กลุ่มงาน">${b['กลุ่มงาน'] || '-'}</td>
+          <td data-label="รถ / คนขับ">
             <strong>${b['ชื่อคนขับ'] || 'รอ Admin เลือกคนขับ'}</strong><br>
-            <div class="my-normal-subline">${b['ประเภทรถ']} · ${b['ทะเบียนรถ'] || 'รอ Admin เลือกรถ'}</div>
+            <small style="color:#64748b;">${b['ประเภทรถ']} · ${b['ทะเบียนรถ'] || 'รอ Admin เลือกรถ'}</small>
           </td>
-          <td data-label="วันที่ใช้งาน" class="my-col-use-date">${formatDate(b['วันที่เริ่ม'])} ${b['เวลาออก']}<div class="my-normal-subline">ถึง ${formatDate(b['วันที่สิ้นสุด'])} ${b['เวลากลับ']}</div></td>
-          <td data-label="วัตถุประสงค์ / สถานที่" class="my-col-purpose-place">
-            <strong style="color:#0d47a1;">${b['วัตถุประสงค์'] || '-'}</strong><br>
-            <small style="color:#64748b;">${b['สถานที่'] || '-'}</small>
-          </td>
-          <td data-label="สถานะ" class="my-col-status">
+          <td data-label="วันที่ใช้งาน">${formatDate(b['วันที่เริ่ม'])} ${b['เวลาออก']}<br><small style="color:#aaa;">ถึง ${formatDate(b['วันที่สิ้นสุด'])} ${b['เวลากลับ']}</small></td>
+          <td data-label="สถานที่">${b['สถานที่']}</td>
+          <td data-label="วัตถุประสงค์" style="max-width:150px;">${b['วัตถุประสงค์']}</td>
+          <td data-label="สถานะ">
             ${statusBadge(b['สถานะ'])}
             ${editRequest ? `<br><small class="admin-edit-time-reason"><i class="bi bi-clock-history"></i>รอพิจารณาแก้วัน/เวลา</small>` : ''}
             ${bookingPermissionPdfButtonHtml(b)}
@@ -7130,7 +6704,7 @@ function renderMyBookings(list) {
           </td>
         </tr>`;
       }).join('')
-    : '<tr><td colspan="8" style="text-align:center; color:#aaa; padding:30px;">ไม่พบการจอง</td></tr>';
+    : '<tr><td colspan="9" style="text-align:center; color:#aaa; padding:30px;">ไม่พบการจอง</td></tr>';
 }
 
 function showBookingDetailModalById(bookingId) {
@@ -7706,17 +7280,13 @@ function renderAdminBookings(list) {
             <small style="color:#64748b;">${b['กลุ่มงาน'] || '-'}</small><br>
             <span class="admin-booker-phone"><i class="bi bi-telephone-fill"></i>${formatPhone(b['เบอร์โทร']) || '-'}</span>
           </td>
-          <td data-label="วันที่ใช้งาน" class="admin-use-date-col">
-            <div class="admin-use-date-lines">
-              <div>${formatDate(b['วันที่เริ่ม'])} ${escapeAttr(b['เวลาออก'] || '-')}</div>
-              <div>ถึง ${formatDate(b['วันที่สิ้นสุด'] || b['วันที่เริ่ม'])} ${escapeAttr(b['เวลากลับ'] || '-')}</div>
-            </div>
+          <td data-label="วันที่ใช้งาน">
+            ${formatAdminUsageDate(b)}<br>
+            <small>${b['เวลาออก']}–${b['เวลากลับ']}</small>
           </td>
           <td data-label="วัตถุประสงค์ / สถานที่" class="admin-purpose-col">
-            <div class="admin-purpose-place-lines">
-              <strong style="color:#0d47a1;">${b['วัตถุประสงค์'] || '-'}</strong>
-              <div class="admin-place-line">${b['สถานที่'] || '-'}</div>
-            </div>
+            <strong style="color:#0d47a1;">${b['วัตถุประสงค์'] || '-'}</strong><br>
+            <small style="color:#64748b;">${b['สถานที่'] || '-'}</small>
             ${cancelReason ? `<div class="admin-cancel-alert">
               <span class="admin-cancel-alert-title"><i class="bi bi-exclamation-triangle-fill"></i>มีคำขอยกเลิก</span>
               <span class="admin-cancel-alert-reason"><strong>เหตุผล:</strong> ${escapeAttr(cancelReason)}</span>
@@ -7738,17 +7308,17 @@ function renderAdminBookings(list) {
             </div>` : ''}
             ${b['หมายเหตุ'] ? `<br><small class="admin-note-text">หมายเหตุ: ${escapeAttr(b['หมายเหตุ'])}</small>` : ''}
           </td>
-          <td data-label="ผู้โดยสาร / ประเภทรถ" class="admin-passenger-col" style="text-align:center;">
+          <td data-label="ผู้โดยสาร / ประเภทรถ" style="text-align:center;">
             <strong>${b['จำนวนผู้โดยสาร'] || '-'} คน</strong><br>
             ${renderAdminVehicleTypeSelect(b)}
           </td>
-          <td data-label="คนขับ / ทะเบียนรถ" class="admin-driver-vehicle-cell admin-driver-col">
-            <div style="display:flex;flex-direction:column;gap:5px;min-width:0;width:100%;">
+          <td data-label="คนขับ / ทะเบียนรถ" class="admin-driver-vehicle-cell">
+            <div style="display:flex;flex-direction:column;gap:5px;min-width:150px;">
               ${renderAdminDriverSelect(b)}
               ${renderAdminVehicleSelect(b)}
             </div>
           </td>
-          <td data-label="สถานะ" class="admin-status-col">${renderAdminStatusControl(b)}</td>
+          <td data-label="สถานะ">${renderAdminStatusControl(b)}</td>
         </tr>`;
       }).join('')
     : '<tr><td colspan="8" style="text-align:center; color:#aaa; padding:30px;">ไม่พบรายการ</td></tr>';
