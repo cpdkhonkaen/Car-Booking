@@ -4723,6 +4723,7 @@ const APP = {
   drivers: [],
   allBookings: [],
   dataReady: { vehicles: false, drivers: false, bookings: false, initial: false },
+  dataCacheGeneration: 0,
   calendar: null,
   currentPage: 'booking',
   selectedBookingForAssign: null,  // Driver assign state
@@ -4731,6 +4732,8 @@ const APP = {
 const CLIENT_API_VERSION = '2026-07-12-auth-v2';
 const AUTH_STORAGE_VERSION = '2';
 const AUTH_STORAGE_VERSION_KEY = 'vehicleBookingAuthStorageVersion';
+const INITIAL_DATA_SESSION_CACHE_KEY = 'vehicleBookingInitialDataV2';
+const INITIAL_DATA_SESSION_CACHE_TTL_MS = 5 * 60 * 1000;
 
 const DATA_MUTATION_FUNCTIONS = new Set([
   'saveVehicle', 'updateVehicle', 'deleteVehicle',
@@ -4738,7 +4741,7 @@ const DATA_MUTATION_FUNCTIONS = new Set([
   'saveBooking', 'approveBooking', 'rejectBooking', 'requestCancelBooking',
   'requestEditBookingDateTime', 'applyEditBookingDateTimeRequest', 'clearEditBookingDateTimeRequest',
   'changeBookingStatus', 'toggleVehicleRequestSentStatus', 'assignDriver', 'normalizeDriverStatuses',
-  'printVehiclePermissionForm',
+  'syncApprovedBookingsToCalendar',
   'initSheets'
 ]);
 
@@ -4746,7 +4749,7 @@ const DARK_MODE_KEY = 'vehicleBookingDarkMode';
 
 // ใส่ URL จาก Apps Script Deploy > Web app > /exec เมื่อต้องการรัน index บน GitHub/Vercel
 // ตัวอย่าง: https://script.google.com/macros/s/AKfycbxxxxxxxxxxxxxxxx/exec
-const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxuikj8jNDj9h6RVuBzLJ91Jx2IOrEcgAcT5pOVu8jHGoCRpLnSwue_LLVVLwj9SSriCQ/exec';
+const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbx0k4g0xSYdvPr8pfIpNv3NybzC6HrRsiFUJ_wzmk03UO-u2z_uECne0v9UrJPoJpE-zQ/exec';
 
 /* ==============================================================
    INIT
@@ -5123,9 +5126,19 @@ document.addEventListener('DOMContentLoaded', async () => {
 async function initializeAppData(force = false) {
   if (!force && APP.dataReady.initial) return true;
 
+  const cachedData = !force ? readInitialDataSessionCache() : null;
+  if (cachedData) {
+    applyInitialData(cachedData);
+    filterVehicles();
+    updateNotificationBadge(APP.allBookings);
+    refreshInitialDataInBackground();
+    return true;
+  }
+
   try {
     const data = await gasCall('getInitialData');
     applyInitialData(data || {});
+    writeInitialDataSessionCache(data || {});
     filterVehicles();
     updateNotificationBadge(APP.allBookings);
     return true;
@@ -5137,6 +5150,73 @@ async function initializeAppData(force = false) {
   }
 }
 
+function readInitialDataSessionCache() {
+  try {
+    const raw = sessionStorage.getItem(INITIAL_DATA_SESSION_CACHE_KEY);
+    if (!raw) return null;
+    const cached = JSON.parse(raw);
+    if (!cached || !cached.savedAt || Date.now() - Number(cached.savedAt) > INITIAL_DATA_SESSION_CACHE_TTL_MS) {
+      sessionStorage.removeItem(INITIAL_DATA_SESSION_CACHE_KEY);
+      return null;
+    }
+    const data = cached.data || {};
+    if (!Array.isArray(data.vehicles) || !Array.isArray(data.drivers) || !Array.isArray(data.bookings)) return null;
+    return data;
+  } catch (err) {
+    sessionStorage.removeItem(INITIAL_DATA_SESSION_CACHE_KEY);
+    return null;
+  }
+}
+
+function writeInitialDataSessionCache(data) {
+  try {
+    if (!data || !Array.isArray(data.vehicles) || !Array.isArray(data.drivers) || !Array.isArray(data.bookings)) return;
+    sessionStorage.setItem(INITIAL_DATA_SESSION_CACHE_KEY, JSON.stringify({ savedAt: Date.now(), data: data }));
+  } catch (err) {
+    console.warn('Initial data session cache skipped:', err);
+  }
+}
+
+function clearInitialDataSessionCache() {
+  try {
+    sessionStorage.removeItem(INITIAL_DATA_SESSION_CACHE_KEY);
+  } catch (err) {
+    // Storage may be unavailable; the in-memory cache still works.
+  }
+}
+
+function refreshInitialDataInBackground() {
+  const generation = APP.dataCacheGeneration;
+  gasCall('getInitialData')
+    .then(data => {
+      if (generation !== APP.dataCacheGeneration) return;
+      applyInitialData(data || {});
+      writeInitialDataSessionCache(data || {});
+      refreshVisibleDataView();
+    })
+    .catch(err => {
+      if (!isAuthSessionError(err)) console.warn('Background data refresh failed:', err);
+    });
+}
+
+function refreshVisibleDataView() {
+  filterVehicles();
+  updateNotificationBadge(APP.allBookings);
+  switch (APP.currentPage) {
+    case 'dashboard': renderDashboard(); break;
+    case 'my-bookings': filterMyBookings(); break;
+    case 'admin':
+      populateAdminDriverFilter();
+      renderAdminBookings(filterAdminBookingsFromCache());
+      break;
+    case 'calendar': if (APP.calendar) initCalendar(); break;
+    case 'driver-schedule': renderDriverSchedule(); break;
+    case 'vehicles': renderVehiclesTable(); break;
+    case 'drivers': renderDriverCards(APP.drivers); break;
+    case 'assign': loadAssignPage(); break;
+  }
+}
+
 function applyInitialData(data) {
   APP.vehicles = Array.isArray(data.vehicles) ? data.vehicles : [];
   APP.drivers = Array.isArray(data.drivers) ? data.drivers : [];
@@ -5145,7 +5225,9 @@ function applyInitialData(data) {
 }
 
 function resetClientDataCache() {
+  APP.dataCacheGeneration += 1;
   APP.dataReady = { vehicles: false, drivers: false, bookings: false, initial: false };
+  clearInitialDataSessionCache();
 }
 
 function dataLoadErrorHtml(err) {
@@ -5165,7 +5247,7 @@ function showDataLoadError(err) {
   if (adminBody) adminBody.innerHTML = `<tr><td colspan="8">${tableHtml}</td></tr>`;
   const driverSchedule = document.getElementById('driver-schedule-table');
   if (driverSchedule) driverSchedule.innerHTML = tableHtml;
-  ['dashboard-top-vehicles', 'dashboard-top-drivers', 'dashboard-top-departments'].forEach(id => {
+  ['dashboard-top-vehicles', 'dashboard-top-drivers', 'dashboard-top-depts'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.innerHTML = tableHtml;
   });
@@ -5509,12 +5591,13 @@ function getMockData(fn, ...args) {
             role:String(user.Role || 'User').toLowerCase() === 'admin' ? 'Admin' : 'User',
             name:user['ชื่อ'] || user.Name || user.Email || 'ผู้ใช้งาน'
           },
-          authToken:'demo-session'
+          authToken:'demo-session',
+          apiVersion:CLIENT_API_VERSION
         };
       }
       return { success:false, message:'รหัสผ่านไม่ถูกต้อง' };
     }
-    case 'getSessionUser':  return { success:true, user:APP.currentUser || { email:'', role:'User', name:'ผู้ใช้งาน' } };
+    case 'getSessionUser':  return { success:true, user:APP.currentUser || { email:'', role:'User', name:'ผู้ใช้งาน' }, apiVersion:CLIENT_API_VERSION };
     case 'logoutSession':   return { success:true };
     case 'getCurrentUser':  return { email:'', role:'User', name:'ผู้ใช้งาน' };
     case 'getInitialData':  return { vehicles: db.vehicles, drivers: db.drivers, bookings: filterMockBookings() };
