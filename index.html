@@ -1638,6 +1638,16 @@
       min-height: 108px;
       padding: 4px;
       position: relative;
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+    }
+
+    .fc .fc-daygrid-day-frame:hover {
+      background: #eef6ff;
+    }
+
+    .fc .fc-timegrid-slot {
+      cursor: pointer;
     }
 
     .fc .fc-daygrid-day-number {
@@ -8494,6 +8504,33 @@ async function rejectBooking(id) {
 /* ==============================================================
    CALENDAR
 ============================================================== */
+function openBookingFromCalendarDate(dateText) {
+  const selectedDate = String(dateText || '').substring(0, 10);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(selectedDate)) return;
+
+  if (shouldBlockPastBookingDates() && selectedDate < getTodayIsoDate()) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'ไม่สามารถจองย้อนหลังได้',
+      text: 'กรุณาเลือกวันที่ตั้งแต่วันนี้เป็นต้นไป',
+      confirmButtonColor: '#1565c0'
+    });
+    return;
+  }
+
+  navigate('booking');
+  setBookingDateValue('f-start-date', selectedDate);
+  setBookingDateValue('f-end-date', selectedDate);
+  syncBookingDateRestrictions();
+  checkAvailability();
+
+  requestAnimationFrame(() => {
+    const startInput = document.getElementById('f-start-date');
+    const scrollTarget = startInput?._flatpickr?.altInput || startInput;
+    scrollTarget?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+}
+
 async function initCalendar() {
   const bookings = await loadBookings(null, true);
   const statusIcons = {
@@ -8575,6 +8612,9 @@ async function initCalendar() {
     },
     eventClick({ event }) {
       showBookingDetailModal(Object.assign({ ID: event.id }, event.extendedProps));
+    },
+    dateClick(info) {
+      openBookingFromCalendarDate(info.dateStr);
     },
     height: 'auto',
     windowResize() {
